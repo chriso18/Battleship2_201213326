@@ -442,7 +442,7 @@ public class Player {
 			return true;
 	}
 	
-	//checks if shot is possible and hasn't been tried before
+	//verifica si no se disparo en un lugar mas de 2 veces
 	public boolean isPlausible(int x, int y)
 	{
 		if ((isValid(x,y))&&(this.getMHS(x,y)==3))
@@ -451,7 +451,7 @@ public class Player {
 			return false;
 	}
 	
-	//checks if selected position is a plausible location for the remaining	ships
+	//verifica si la posicion es la indicada para colocar los barcos
 	public boolean rshipsv(int x,int y)
 	{
 		int u=0;
@@ -612,7 +612,7 @@ public class Player {
 						this.fireShot(x-1,y,0);					
 				}
 		}
-		else if (this.getGo()==1)//means that ship is horizontal
+		else if (this.getGo()==1)//significa que el barco esta horizontal
 		{
 			if (this.getChit())
 			{
@@ -659,7 +659,7 @@ public class Player {
 				}						
 			}
 		}
-		else if (go==0) //means that ship is vertical
+		else if (go==0) //significa que el barco esta vertical
 		{
 			if (this.getChit())
 			{
@@ -728,8 +728,7 @@ public class Player {
 			this.setC(y);							
 		}	
 	}
-
-		
+	
 	public void takeShot(int x,int y)
 	{				
 		this.setShots();
@@ -827,7 +826,8 @@ public class Player {
 			}									
 		}						
 	}
-	//Listener for the buttons on the board	while playing game		
+
+	//es el listener para los botones de la matriz en el tablero al jugar
 	public class CompAttack implements ActionListener
 	{	
 		public void actionPerformed(ActionEvent v)

@@ -27,8 +27,7 @@ public class Battleship extends JFrame {
 	//array of letters used for combo boxes
 			    	 cnumeros = {" ","1","2","3","4","5","6","7","8","9","10"},
 	//array of numbers used for combo boxes
-					 barcos = {"Carrier","Battleship","Submarine","Destroyer",
-					 "Patrol Boat"},//string usado para guardar barcos dentro del combo box
+					 barcos = {"Carrier","Battleship","Submarine","Destroyer","Patrol Boat"},//string usado para guardar barcos dentro del combo box
 					 direccion = {"Horizontal","Vertical"},//posiciones que pueden tener los barcos dentro del combo box
 					 level={"Normal", "Ridiculously Hard"}, 
 					 layout={"Manual","Automatic"},
@@ -56,7 +55,6 @@ public class Battleship extends JFrame {
 				sindex=0,//guarda el indice del array
 				dindex=0;//direccion	
 	
-	
 	private static Player players[]=new Player[2];
 	private static JButton deploy=new JButton("COLOCAR");
 	private static int w=0,a=0,s=0,t=0,e=0;//counters to track the use of all barcos
@@ -69,31 +67,13 @@ public class Battleship extends JFrame {
 	private static BattleshipClient me;
 	private static boolean gameover=false;
 	
-	public Battleship()
-	{	
+	public Battleship(){	
 		setTitle("Batalla Naval");		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setJMenuBar(createMenuBar());
-		//setSize(1000, 800);
 		setResizable(false);			
 		
-		//gets user to input name
 		user=JOptionPane.showInputDialog("Ingresa Tu Nombre.");		
-		/*int dummy=0;
-		while (((user==null)||(user.equals(""))))
-		{				
-			user=JOptionPane.showInputDialog("You have to input something.");
-			if ((user!=null)&&(!user.equals("")))
-				dummy=4;
-			else
-				dummy++;
-		}
-		if (dummy==3)
-		{
-			JOptionPane.showMessageDialog(null,"Since you're having trouble inp"
-			+"utting your name, I'll just call you stupid.","",JOptionPane.INFORMATION_MESSAGE);
-			user="Stupid";
-		}*/
 		players[you]=new Player (user);
 		players[enemy]=new Player ("Rival");						
 		b=getContentPane();		
@@ -103,33 +83,27 @@ public class Battleship extends JFrame {
 		inputpanel=shipinput();
 		d.add(inputpanel,BorderLayout.NORTH);			
 		pack();		
-		setVisible(true);
-		
+		setVisible(true);	
 	}	
 	
-	public static boolean getGameOver()
-	{
+	public static boolean getGameOver(){
 	 	return gameover;	  
 	}
 
-	public static void setGameOver(boolean b)
-	{
+	public static void setGameOver(boolean b){
 	 	gameover=b;	  
 	}
 	
 	//metodo que determina quien empieza primero
-	public void whoGoesFirst()
-	{
+	public void whoGoesFirst(){
 		int x=0;
-		if (playsFirst.getSelectedIndex()!=2)
-		{
+		if (playsFirst.getSelectedIndex()!=2){
 			if (playsFirst.getSelectedIndex()!=you)
 				flipYou();	
 			players[playsFirst.getSelectedIndex()].getTimer().start();
 			x=playsFirst.getSelectedIndex();
 		}
-		else
-		{		
+		else{		
 			int rand=(int)(Math.random()*2);					
 			JOptionPane.showMessageDialog(null,players[rand].getUser()+" will "
 			+"go first.","",JOptionPane.PLAIN_MESSAGE);
@@ -143,173 +117,135 @@ public class Battleship extends JFrame {
 			players[x].setMove(true);
 	}
 	
-	
 	//retorna el color del barco, elegido por el usuario
-	public static Color getColor()
-	{			
+	public static Color getColor(){			
 		return (color[shipColor.getSelectedIndex()]);	
 	}
 	
-	//asks if two players are playing on the same computer or over the web
-	public static boolean isLocal()
-	{
+	//pregunta si 2 jugadores estan jugando en la misma compu o en linea
+	public static boolean isLocal(){
 		if ((gametype==pvp)&&(selectedValue.equals("Local")))
 				return true;
 		else
 			return false;
 	}
 	
-	
-	public static void flipYou()
-	{
-		if (you==1)
-		{	
+	public static void flipYou(){
+		if (you==1){	
 			you=0;
 			enemy=1;
 		}
-		else
-		{
+		else{
 			you=1;
 			enemy=0;
 		}	
 	}
 	
 	//determines whether or not is shipLayout is set to automatic
-	public static boolean isAutoSet()
-	{
+	public static boolean isAutoSet(){
 		if (shipLayout.getSelectedIndex()==0)
 			return false;
 		else
 			return true;
 	}
-	
-	
 
 	//esta variable determina si el carrier(cargador) ha sido colocado o no 
-	public static int getW()
-	{
+	public static int getW(){
 		return w;	
 	}
 	
 	//esta variable determina si el battleship (barco de batalla) ha sido colocado o no
-	public static int getA()
-	{
+	public static int getA(){
 		return a;	
 	}
 	
-	
 	//esta variable determina si el submarine (submarino) ha sido colocado o no
-	public static int getS()
-	{
+	public static int getS(){
 		return s;	
 	}
 	
-
 	//esta variable determina si el destruyer (destructor) ha sido colocado o no
-	public static int getT()
-	{
+	public static int getT(){
 		return t;	
 	}
 	
-	
 	//esta variable determina si la patrol (patrulla) ha sido colocado o no
-	public static int getE()
-	{
+	public static int getE(){
 		return e;	
 	}		
 	
-	public static int getReady()
-	{
+	public static int getReady(){
 		return ready;	
 	}
 	
-	public static JFrame getestadisticas()
-	{
+	public static JFrame getestadisticas(){
 		return estadisticas;	
 	}
 	
-	public static void setData(JLabel x)
-	{
+	public static void setData(JLabel x){
 		data=x;	
 	}
 	
-	public static JLabel getData()
-	{
+	public static JLabel getData(){
 		return data;	
 	}
 	
-	public static JPanel getStats()
-	{
+	public static JPanel getStats(){
 		return stats;	
 	}	
 	
-	public static void setDeploy(boolean k)
-	{
+	public static void setDeploy(boolean k){
 		deploy.setEnabled(k);	
 	}	
 	
-	public static Player getPlayers(int x)
-	{
+	public static Player getPlayers(int x){
 		return players[x];	
 	}
 	
-	public static String getDirection(int i)
-	{
+	public static String getDirection(int i){
 		return direccion[i];	
 	}
 	
-	public static String getCletters(int i)
-	{
+	public static String getCletters(int i){
 		return cletras[i];	
 	}	
 	
-	public static String getShips(int i)
-	{
+	public static String getShips(int i){
 		return barcos[i];	
 	}
 	
-	public static String getCnumbers(int i)
-	{
+	public static String getCnumbers(int i){
 		return cnumeros[i];	
 	}	
 	
-	public static int getSIndex()
-	{
+	public static int getSIndex(){
 		return sindex;	
 	}
 	
-	public static int getDIndex()
-	{
+	public static int getDIndex(){
 		return dindex;	
 	}	
 	
-	public static int getYou()
-	{
+	public static int getYou(){
 		return you;	
 	}
 	
-	public static int getEnemy()
-	{
+	public static int getEnemy(){
 		return enemy;	
 	}	
 	
-	public static void setYou(int x)
-	{
+	public static void setYou(int x){
 		you=x;	
 	}
 	
-	public static void setEnemy(int x)
-	{
+	public static void setEnemy(int x){
 		enemy=x;	
 	}
 	
-	//creates Game menu and submenus
-	//crea el menudel juego ylos submenus
-	public JMenuBar createMenuBar()
-	{
+	   //crea el menu del juego y los submenus
+	    public JMenuBar createMenuBar(){
 		JMenu menu;//menu
       
-	
 		//crea la barra del menu
 		JMenuBar menuBar = new JMenuBar();
 
@@ -332,9 +268,9 @@ public class Battleship extends JFrame {
 		//cvc.addActionListener(stuff);
 		//m.add(cvc);
 		
-		m = new JMenuItem("Reglas");
-		m.addActionListener(new RulesListener());
-		menu.add(m);
+		//m = new JMenuItem("Reglas");
+		//m.addActionListener(new RulesListener());
+		//menu.add(m);
 		m = new JMenuItem("Estadisticas");
 		m.addActionListener(new StatsListener());		
 		menu.add(m);
@@ -347,7 +283,7 @@ public class Battleship extends JFrame {
 		return menuBar;
 	}
 	
-	//creates panels that used to place barcos
+	    //crea los paneles que son usados para colocar los barcos 
 		public JPanel shipinput()
 		{
 			input= new JPanel();
@@ -372,7 +308,7 @@ public class Battleship extends JFrame {
 			return input;
 		}	
 		
-		//creates board for manual ship placement
+		//crea los bordes para colocar los barcos de forma manual
 		public JPanel setBoard(int n)
 		{
 			players[n].setMyBoard(new JPanel(new GridLayout(11,11)));//panel to store board		
@@ -415,7 +351,7 @@ public class Battleship extends JFrame {
 			return players[n].getMyBoard();		
 		}
 		
-		//creates board and automatically places ship
+		//crea los bordes y automaticamente coloca los barcos
 		public JPanel autoBoard(int u,int t) 
 		{
 			players[u].setGBoard(new JPanel(new GridLayout(11,11)));//panel to store board		
@@ -476,7 +412,7 @@ public class Battleship extends JFrame {
 			return players[u].getGBoard();		
 		}
 		
-		//Listener for combo boxes used to layout barcos 
+		//Listener para las posiciones de los barcos dentro del combo boxes 
 		private class ShipsListener implements ActionListener
 		{	
 			public void actionPerformed(ActionEvent v)
@@ -508,7 +444,7 @@ public class Battleship extends JFrame {
 			}
 		}			
 				
-		//Listener for the Direction combo box		
+		//Listener para las direcciones del combo box		
 		private class DirectListener implements ActionListener
 		{	
 			public void actionPerformed(ActionEvent v)
@@ -525,7 +461,7 @@ public class Battleship extends JFrame {
 			}
 		}				
 		
-		//Listener for the buttons on the board		
+		//Listener para los botones en el tablero 		
 		private class BoardListener implements ActionListener
 		{	
 			public void actionPerformed(ActionEvent v)
@@ -580,7 +516,7 @@ public class Battleship extends JFrame {
 			}
 	    }
 		
-		//creates a panel that tells whose board is which
+		//crea el panel que dice de quien es el respectivo tablero
 		private JPanel whoseBoard()
 		{
 			JPanel panel=new JPanel(new BorderLayout());
@@ -589,7 +525,7 @@ public class Battleship extends JFrame {
 			return panel;
 		}
 		
-		//Listener for exit choice on Game menu	
+		//Listener para la opcion de salir en el menu del juego	
 		private class SalidaListener implements ActionListener
 		{
 			public void actionPerformed(ActionEvent e)
@@ -601,7 +537,7 @@ public class Battleship extends JFrame {
 			}	
 		}
 
-		//listener for New Game submenu		
+		//listener para el submenu Nuevo Juego			
 		private class GameListener implements ActionListener
 		{	
 			public void actionPerformed(ActionEvent e)
@@ -779,17 +715,7 @@ public class Battleship extends JFrame {
 			}	
 		}	
 		
-		//Listener for Rules menu
-		private class RulesListener implements ActionListener
-		{	
-			public void actionPerformed(ActionEvent e)
-			{	
-				
-			}	
-		}
-		
-		
-		//Listener for ok button in estadisticas menu
+		//Listener para el boton ok en el menu de estadisticas
 		private class OkListener implements ActionListener
 		{	
 			public void actionPerformed(ActionEvent e)
@@ -798,7 +724,7 @@ public class Battleship extends JFrame {
 			}	
 		}
 		
-		//Listener for Stats menu
+		//Listener para el Menu Stats
 		private class StatsListener implements ActionListener
 		{	
 			//
@@ -895,7 +821,7 @@ public class Battleship extends JFrame {
 			}	
 		}
 		
-		//Listener for Deploy Button 
+		//Listener para el boton colocar  
 		private class DeployListener implements ActionListener
 		{	
 			public void actionPerformed(ActionEvent v)
@@ -923,7 +849,7 @@ public class Battleship extends JFrame {
 			}	
 		}
 
-		//Listener for Opciones menu
+		//Listener para las Opciones  del menu
 		public class OpcionesListener implements ActionListener
 		{	
 			public void actionPerformed(ActionEvent e)
