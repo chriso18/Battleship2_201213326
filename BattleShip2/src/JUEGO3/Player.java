@@ -18,13 +18,11 @@ public class Player {
 	private String user;//user name
 	//private JPanel board;//panel to store game board
 	private int shipsleft;
-	private int shots;// shots taken
+	private int shots;// disparos recibidos
 	private boolean[][] hitormiss=new boolean[10][10];
-	private boolean chit=false;//checks if computer hit ship or not		
-	private JButton[][] bboard = new JButton [10][10];
-						//gbutton=new JButton [10][10];
-	private int[][] mhs=new int[10][10];//used by computer to track miss(0)
-	//, hit(1), or sunk(2); default is (3)
+	private boolean chit=false;//verifica si el com acerto o no	
+	private JButton[][] bboard = new JButton [10][10];//gbutton=new JButton [10][10];
+	private int[][] mhs=new int[10][10];//se usa para el com para ver si fallo(0)//, golpeo(1), o lo hundio(2); default es (3)
 	private boolean move;
 	private JPanel gboard,myboard;
 	private Vector rows=new Vector();
@@ -32,23 +30,20 @@ public class Player {
 	private Timer timeleft;//
 	private String[][] whatship=new String[10][10];//stores name of ships or " "
 	private int go=2;//direction for the computer to look for ships
-	private int fr,fc;//first hits made by computer					
-	private int lastship;//length of the last ship left
+	private int fr,fc;//primer acierto hecho por el com			
+	private int lastship;//longitud del barco restante
 	private NumberFormat nf = NumberFormat.getPercentInstance();
 	//private Board games
 		
-	public Player(String name)
-	{			
+	public Player(String name){			
 		user=name;
 		shipsleft=5;
 		lastship=0;	
 				
-		if
-		((user.equals("Computer"))||(user.equals("CPU1"))||(user.equals("CPU2"))||(Battleship.isAutoSet())||(Battleship.isLocal()))
+	    if((user.equals("Computer"))||(user.equals("CPU1"))||(user.equals("CPU2"))||(Battleship.isAutoSet())||(Battleship.isLocal()))
 			for (i=0;i<5;i++)
 				boats[i]=new Ship(Battleship.getShips(i),0,0,0,0);		
-		if((user.equals("Computer"))||(user.equals("CPU1"))||(user.equals("CPU2")))
-		{
+		if((user.equals("Computer"))||(user.equals("CPU1"))||(user.equals("CPU2"))){
 			for (i=0;i<10;i++)
 				for (j=0;j<10;j++)
 					mhs[i][j]=3;						
@@ -60,10 +55,8 @@ public class Player {
 		move=false;
 		shots=0;
 		hits=0;
-		for (i=0;i<10;i++)
-		{			
-			for (j=0;j<10;j++)
-			{
+		for (i=0;i<10;i++){			
+			for (j=0;j<10;j++){
 				this.bboard[i][j]=new JButton();
 				this.bboard[i][j].setBackground(null);				
 				hitormiss[i][j]=false;
@@ -72,126 +65,104 @@ public class Player {
 		}			
 	}
 	
-	public void setUser(String m)
-	{
+	public void setUser(String m){
 		this.user=m;	
 	}
 	
 	//returns player's game board with ap
-	public JPanel getMyBoard()
-	{
+	public JPanel getMyBoard(){
 		return this.myboard;	
 	}	
 	
 	//returns player's game board with ap
-	public JPanel getGBoard()
-	{
+	public JPanel getGBoard(){
 		return this.gboard;	
 	}	
 	
-	public void setMyBoard(JPanel r)
-	{
+	public void setMyBoard(JPanel r){
 		this.myboard=r;		
 	}
 
-	public void setGBoard(JPanel r)
-	{
+	public void setGBoard(JPanel r){
 		this.gboard=r;		
 	}		
 		
-	public void setBoats(int i, Ship r)
-	{
+	public void setBoats(int i, Ship r){
 		this.boats[i]=r;		
 	}	
 	
-	/*public void setGames(Board k)
-	{
+	/*public void setGames(Board k){
 		this.games=k;
 	}	
 	
-	public Board getGames()
-	{
+	public Board getGames(){
 		return this.games;
 	}*/
 	
-	public Ship getBoats(int x)
-	{
+	public Ship getBoats(int x){
 		return this.boats[x];
 	}
 		
-	public void setShots()
-	{
+	public void setShots(){
 		this.shots+=1;	
 	}		
 		
-	public void setHits()
-	{
+	public void setHits(){
 		this.hits+=1;	
 	}		
 	
-	public int getShots()
-	{
+	public int getShots(){
 		return this.shots;	
 	}		
 	
-	public int getHits()
-	{
+	public int getHits(){
 		return this.hits;	
 	}		
 		
-	public String getAcc()
-	{
+	public String getAcc(){
 		if (this.getShots()>0)
 			return nf.format(((double)(this.getHits())/(double)(this.getShots())));
 		else
 			return "";
 	}		
 		
-	public Timer getTimer()
-	{
+	public Timer getTimer(){
 		return timeleft;
 	}
 	
-	public JButton getBboard(int i,int j)
-	{
+	public JButton getBboard(int i,int j){
 		return this.bboard[i][j];	
 	}	
 	
-	public void setBboard(int i,int j, Color k)
-	{
+	public void setBboard(int i,int j, Color k){
 		this.bboard[i][j].setBackground(k);	
 	}		
 		
-	public void setMove(boolean x)
-	{
+	public void setMove(boolean x){
 		this.move=x;
 	}
 		
-	public boolean getMove()
-	{
+	public boolean getMove(){
 		return this.move;
 	}
 		
-	//returns user name
-	public String getUser()
-	{
+	//regresa el nombre del usuario
+	public String getUser(){
 		return user;				
 	}
 	
-	//checks if Estadisticas frame is open
-	public static void isStatsOpen()
-	{
-		if (Battleship.getStats().isShowing())
-		{	
+	//verifica si el frame de estadisticas esta abierto
+	public static void isStatsOpen(){
+		if (Battleship.getStats().isShowing()){	
 			Battleship.getStats().removeAll();
 			Battleship.getStats().setLayout(new GridLayout(6,3));					
 			Battleship.setData(new JLabel(""));
 			Battleship.getStats().add(Battleship.getData());
-			Battleship.setData(new JLabel("Player 1",SwingConstants.CENTER));
+			Battleship.setData(new JLabel("Jugador 1",SwingConstants.CENTER));
 			Battleship.getStats().add(Battleship.getData());
-			Battleship.setData(new JLabel("Player 2",SwingConstants.CENTER));
+			Battleship.setData(new JLabel("Jugador 2",SwingConstants.CENTER));
 			Battleship.getStats().add(Battleship.getData());				
-			Battleship.setData(new JLabel("Names"));
+			Battleship.setData(new JLabel("Nombres"));
 			Battleship.getStats().add(Battleship.getData());
 			if (Battleship.getYou() == 0)			
 				resetStats(Battleship.getYou(),Battleship.getEnemy());			
@@ -209,7 +180,7 @@ public class Player {
 		Battleship.getStats().add(Battleship.getData());
 		Battleship.setData(new JLabel(Battleship.getPlayers(y).getUser(),SwingConstants.CENTER));
 		Battleship.getStats().add(Battleship.getData());
-		Battleship.setData(new JLabel("Shots Taken"));
+		Battleship.setData(new JLabel("Dipsaros Recibidos"));
 		Battleship.getStats().add(Battleship.getData());
 		Battleship.setData(new JLabel(Integer.toString(Battleship.getPlayers(x).getShots()),SwingConstants.CENTER));
 		Battleship.getStats().add(Battleship.getData());
@@ -221,13 +192,13 @@ public class Player {
 		Battleship.getStats().add(Battleship.getData());
 		Battleship.setData(new JLabel(Integer.toString(Battleship.getPlayers(y).getHits()),SwingConstants.CENTER));
 		Battleship.getStats().add(Battleship.getData());
-		Battleship.setData(new JLabel("Shot Accuracy"));
+		Battleship.setData(new JLabel("Precision del Disparo"));
 		Battleship.getStats().add(Battleship.getData());
 		Battleship.setData(new JLabel(Battleship.getPlayers(x).getAcc(),SwingConstants.CENTER));
 		Battleship.getStats().add(Battleship.getData());
 		Battleship.setData(new JLabel(Battleship.getPlayers(y).getAcc(),SwingConstants.CENTER));
 		Battleship.getStats().add(Battleship.getData());
-		Battleship.setData(new JLabel("Ships Left"));
+		Battleship.setData(new JLabel("Barcos Restantes"));
 		Battleship.getStats().add(Battleship.getData());
 		Battleship.setData(new JLabel(Integer.toString(Battleship.getPlayers(x).getShipsLeft()),SwingConstants.CENTER));
 		Battleship.getStats().add(Battleship.getData());
@@ -235,132 +206,106 @@ public class Player {
 		Battleship.getStats().add(Battleship.getData());	
 	}
 	
-	public String getWhatShip(int x,int y)
-	{
+	public String getWhatShip(int x,int y){
 		return this.whatship[x][y];			
 	}		
 	
-	public boolean getChit()
-	{
+	public boolean getChit(){
 		return this.chit;	
 	}
 	
-	public void setChit(boolean x)
-	{
+	public void setChit(boolean x){
 		this.chit=x;	
 	}
 	
-	public void setFC(int x)
-	{
+	public void setFC(int x){
 		this.fc=x;	
 	}
 	
-	public void setFR(int x)
-	{
+	public void setFR(int x){
 		this.fr=x;	
 	}
 	
-	public void setC(int x)
-	{
+	public void setC(int x){
 		this.c=x;	
 	}
 	
-	public void setR(int x)
-	{
+	public void setR(int x){
 		this.r=x;	
 	}
 	
-	public int getGo()
-	{
+	public int getGo(){
 		return this.go;	
 	}		
 	
 	//sets direction for comp to look(2=anywhere,1=horizontal,0=vertical)
-	public void setGo(int x)
-	{
+	public void setGo(int x){
 		this.go=x;	
 	}	
 	
 	//returns column of first hit
-	public int getFC()
-	{
+	public int getFC(){
 		return this.fc;	
 	}		
 	
 	//column 
-	public int getC()
-	{
+	public int getC(){
 		return this.c;	
 	}	
 	
 	//returns row of first hit
-	public int getFR()
-	{
+	public int getFR(){
 		return this.fr;	
 	}		
 	
 	//row 
-	public int getR()
-	{
+	public int getR(){
 		return this.r;	
 	}		
 	
-	public void setLastShip(int x)
-	{
+	public void setLastShip(int x){
 		this.lastship=x;	
 	}
 	
-	public int getLastShip()
-	{
+	public int getLastShip(){
 		return this.lastship;	
 	}
 	
-	public int getShipsLeft()
-	{
+	public int getShipsLeft(){
 		return this.shipsleft;	
 	}
 	
-	public void setShipsLeft()
-	{
+	public void setShipsLeft(){
 		this.shipsleft-=1;			
 	}	
 	
-	public void setWhatShip(int x,int y,String u)
-	{
+	public void setWhatShip(int x,int y,String u){
 		this.whatship[x][y]=u;			
 	}	
 	
-	public void setMHS(int x,int y,int z)
-	{
+	public void setMHS(int x,int y,int z){
 		this.mhs[x][y]=z;			
 	}
 		
-	public int getMHS(int x, int y)
-	{
+	public int getMHS(int x, int y){
 		return this.mhs[x][y];				
 	}	
 	
-	//method that determines if hit ship is sunk or not
-	public boolean isSunk(int x, int y)
-	{
-		int f=0;			
-		
-		//finds which ship was sunk
+	//metodo que determina si el barco recibio un hit, se hundio o no.
+	public boolean isSunk(int x, int y){
+		int f=0;				
+		//encuentra cual barco se hundio
 		while (!this.boats[f].getName().equals(this.getWhatShip(x,y)))
 			f++;
 		this.boats[f].setHitsLeft();		
-		if (this.boats[f].getHitsLeft()==0)
-		{
+		if (this.boats[f].getHitsLeft()==0){
 			Battleship.getPlayers(Battleship.getEnemy()).setShipsLeft();
 			if
-			((Battleship.getPlayers(Battleship.getYou()).getUser().equals("Computer"))||(Battleship.getPlayers(Battleship.getYou()).getUser().equals("CPU1"))||(Battleship.getPlayers(Battleship.getYou()).getUser().equals("CPU2")))
-			{	
+			((Battleship.getPlayers(Battleship.getYou()).getUser().equals("Computer"))||(Battleship.getPlayers(Battleship.getYou()).getUser().equals("CPU1"))||(Battleship.getPlayers(Battleship.getYou()).getUser().equals("CPU2"))){	
 				for (int k=0;k<10;k++)
 					for (int m=0;m<10;m++)
 						if
-				(this.boats[f].getName().equals(this.getWhatShip(k
-							,m)))
-						{
+				(this.boats[f].getName().equals(this.getWhatShip(k,m))){
 							Battleship.getPlayers(Battleship.getYou()).setMHS(k,m,2);
 							this.setBboard(k,m,Color.black);
 						}
@@ -368,20 +313,17 @@ public class Player {
 				Battleship.getPlayers(Battleship.getYou()).setChit(false);
 				if ((!this.getUser().equals("CPU1"))
 					&&(!this.getUser().equals("CPU2")))
-					JOptionPane.showMessageDialog(null,"You just lost your "+
-					this.boats[f].getName()+"!","Ship Destroyed",
+					JOptionPane.showMessageDialog(null,"Has Perdido tu "+
+					this.boats[f].getName()+"!","Barco Destruido",
 					JOptionPane.WARNING_MESSAGE);
 			}
-			else
-			{
-				JOptionPane.showMessageDialog(null,"You sank the "+
-				this.boats[f].getName()+"!","Good Job!",
+			else{
+				JOptionPane.showMessageDialog(null,"Has Hundido el "+
+				this.boats[f].getName()+"!","Bien Hecho!",
 				JOptionPane.INFORMATION_MESSAGE);
 				for (int k=0;k<10;k++)
 					for (int m=0;m<10;m++)
-						if(this.boats[f].getName().equals(this.getWhatShip(k
-							,m)))
-						{								
+						if(this.boats[f].getName().equals(this.getWhatShip(k,m))){								
 							this.setBboard(k,m,Color.black);
 						}					
 			}
@@ -391,9 +333,8 @@ public class Player {
 			return false;
 	}
 	
-	//method that determines if hit ship is sunk or not
-	public boolean isSunk(int x, int y, String z)
-	{
+	//metodo que determina si el barco recibio un hit, se hundio o no.
+	public boolean isSunk(int x, int y, String z){
 		int f=0;			
 		
 		while (!z.equals(this.boats[f].getName()))
@@ -403,8 +344,8 @@ public class Player {
 		if (this.boats[f].getHitsLeft()==0)
 		{
 			this.setShipsLeft();
-			JOptionPane.showMessageDialog(null,"You just lost your "+
-			this.boats[f].getName()+"!","Ship Destroyed",
+			JOptionPane.showMessageDialog(null,"Has Perdido tu "+
+			this.boats[f].getName()+"!","Barco Destruido",
 					JOptionPane.WARNING_MESSAGE);
 			for (int k=0;k<10;k++)
 				for (int m=0;m<10;m++)
@@ -416,20 +357,17 @@ public class Player {
 			return false;
 	}
 
-	//sets hitormiss[x][y] to k 				
-	public void setHitOrMiss (int x, int y, boolean k)
-	{
+	//coloca lo que tenga el arreglo bidimensional de hit o miss a la variable k
+	public void setHitOrMiss (int x, int y, boolean k){
 		this.hitormiss[x][y]=k;
 	}
 			
-	public boolean getHitOrMiss (int x, int y)
-	{
+	public boolean getHitOrMiss (int x, int y){
 		return this.hitormiss[x][y];
 	}
 			
-	//checks if any of the surrounding points are plausible
-	public boolean isSurrounded(int x, int y)
-	{
+	//verifica si alguno de los puntos al rededor estan libres
+	public boolean isSurrounded(int x, int y){
 		if (this.isPlausible(x+1,y))				
 			return false;		
 		else if (this.isPlausible(x-1,y))
@@ -443,8 +381,7 @@ public class Player {
 	}
 	
 	//verifica si no se disparo en un lugar mas de 2 veces
-	public boolean isPlausible(int x, int y)
-	{
+	public boolean isPlausible(int x, int y){
 		if ((isValid(x,y))&&(this.getMHS(x,y)==3))
 			return true;
 		else
@@ -452,8 +389,7 @@ public class Player {
 	}
 	
 	//verifica si la posicion es la indicada para colocar los barcos
-	public boolean rshipsv(int x,int y)
-	{
+	public boolean rshipsv(int x,int y){
 		int u=0;
 		int g=0;
 					
@@ -504,9 +440,8 @@ public class Player {
 			return false;			
 	}
 		
-	//checks if selected position is a plausible location for the remaining	ships
-	public boolean rshipsh(int x,int y)
-	{
+	//verifica si la posicion es la indicada para colocar los barcos
+	public boolean rshipsh(int x,int y){
 		int u=0;
 		int g=0;
 					
@@ -518,17 +453,13 @@ public class Player {
 		else
 			u=5;			
 		alright:
-		while (u<5)
-		{
+		while (u<5){
 			g=0;			
-			if (this.boats[u].getHitsLeft()!=0) 
-			{	
+			if (this.boats[u].getHitsLeft()!=0) {	
 				daloop:
-				for (i=(y-this.boats[u].getLength());i<(y+this.boats[u].getLength());i++)
-				{												
+				for (i=(y-this.boats[u].getLength());i<(y+this.boats[u].getLength());i++){												
 					if ((isValid(x,i))&&((Battleship.getPlayers(Battleship.getYou()).getMHS(x,i)==3)||
-						(Battleship.getPlayers(Battleship.getYou()).getMHS(x,i)==1)))
-					{
+						(Battleship.getPlayers(Battleship.getYou()).getMHS(x,i)==1))){
 						g+=1;
 						if (g==this.boats[u].getLength())
 							break daloop;
@@ -538,8 +469,7 @@ public class Player {
 				}						
 				if (g==(this.boats[u].getLength()))
 					break alright;
-				else
-				{
+				else{
 					u++;
 					if (u==5)
 						g=0;
@@ -548,61 +478,49 @@ public class Player {
 			else
 				u++;				
 		}			
-		if (u!=5)					
-		{						
+		if (u!=5){						
 			return true;			
 		}		
 		else			
 			return false;			
 	}		
 	
-	//checks if point (x,y) is valid		
-	public boolean isValid(int x, int y)
-	{			
+	//verifica si el punto (x,y) es valido o no
+	public boolean isValid(int x, int y){			
 		if ((x<0)||(y<0)||(x>9)||(y>9))
 			return false;	
 		else
 			return true;		
 	}
-
 	
-	//used by computer to scan area around last hit			
-	public void scanArea(int x, int y)
-	{
-		if (this.getGo()==2)
-		{
-			if (this.isPlausible(x,y+1))
-				{
-					if (!Battleship.getPlayers(Battleship.getEnemy()).rshipsh(x,y+1))
-					{	
+	//usado por el comp para verificar los puntos cerca del punto seleccionado anteriormente
+	public void scanArea(int x, int y){
+		if (this.getGo()==2){
+			if (this.isPlausible(x,y+1)){
+					if (!Battleship.getPlayers(Battleship.getEnemy()).rshipsh(x,y+1)){	
 						this.setMHS(x,y+1,0);
 						this.scanArea(x,y);
 					}								
 					else
 						this.fireShot(x,y+1,1);					
 				}			
-			else if (this.isPlausible(x+1,y))
-				{
-					if (!Battleship.getPlayers(Battleship.getEnemy()).rshipsv(x+1,y))
-					{	
+			else if (this.isPlausible(x+1,y)){
+					if (!Battleship.getPlayers(Battleship.getEnemy()).rshipsv(x+1,y)){	
 						this.setMHS(x+1,y,0);
 						this.scanArea(x,y);
 					}							
 					else
 						this.fireShot(x+1,y,0);									
 				}
-			else if (this.isPlausible(x,y-1))
-				{						
-					if (!Battleship.getPlayers(Battleship.getEnemy()).rshipsh(x,y-1))
-					{	
+			else if (this.isPlausible(x,y-1)){						
+					if (!Battleship.getPlayers(Battleship.getEnemy()).rshipsh(x,y-1)){	
 						this.setMHS(x,y-1,0);
 						this.scanArea(x,y);
 					}						
 					else
 						this.fireShot(x,y-1,1);											
 				}
-			else if (this.isPlausible(x-1,y))
-				{						
+			else if (this.isPlausible(x-1,y)){						
 					if (!Battleship.getPlayers(Battleship.getEnemy()).rshipsv(x-1,y))
 					{	
 						this.setMHS(x-1,y,0);
@@ -612,10 +530,8 @@ public class Player {
 						this.fireShot(x-1,y,0);					
 				}
 		}
-		else if (this.getGo()==1)//significa que el barco esta horizontal
-		{
-			if (this.getChit())
-			{
+		else if (this.getGo()==1){//significa que el barco esta horizontal
+			if (this.getChit()){
 				if (this.isPlausible(x,y+1))
 					this.fireShot(x,y+1);
 				else if (this.isPlausible(x,y-1))						
@@ -624,45 +540,37 @@ public class Player {
 					this.fireShot(x,this.getFC()+1);
 				else if (this.isPlausible(x,this.getFC()-1))
 					this.fireShot(x,this.getFC()-1);
-				else
-				{
+				else{
 					this.setGo(2);
 					this.scanArea(this.getFR(),this.getFC());
 				}					
 			}
-			else 
-			{
+			else {
 				if (this.isPlausible(x,y+1))
 					this.fireShot(x,y+1);
-				else if (this.isPlausible(x,y-1))
-				{
+				else if (this.isPlausible(x,y-1)){
 					this.fireShot(x,y-1);
 					if (!this.getChit())
 						this.setGo(2);			
 				}
-				else if (this.isPlausible(x,this.getFC()+1))
-				{
+				else if (this.isPlausible(x,this.getFC()+1)){
 					this.fireShot(x,this.getFC()+1);
 					if (!this.getChit())
 						this.setGo(2);			
 				}
-				else if (this.isPlausible(x,this.getFC()-1))
-				{
+				else if (this.isPlausible(x,this.getFC()-1)){
 					this.fireShot(x,this.getFC()-1);
 					if (!this.getChit())
 						this.setGo(2);							
 				}
-				else
-				{
+				else{
 					this.setGo(2);
 					this.scanArea(this.getFR(),this.getFC());
 				}						
 			}
 		}
-		else if (go==0) //significa que el barco esta vertical
-		{
-			if (this.getChit())
-			{
+		else if (go==0){ //significa que el barco esta vertical
+			if (this.getChit()){
 				if (this.isPlausible(x+1,y))
 					this.fireShot(x+1,y);					
 				else if (this.isPlausible(x-1,y))
@@ -671,36 +579,30 @@ public class Player {
 					this.fireShot(this.getFR()+1,y);					
 				else if (this.isPlausible(this.getFR()-1,y))						
 					this.fireShot(this.getFR()-1,y);					
-				else
-				{
+				else{
 					this.setGo(2);
 					this.scanArea(this.getFR(),this.getFC());
 				}
 			}
-			else
-			{
+			else{
 				if (this.isPlausible(x+1,y))
 					this.fireShot(x+1,y);				
-				else if (this.isPlausible(x-1,y))
-				{
+				else if (this.isPlausible(x-1,y)){
 					this.fireShot(x-1,y);	
 					if (!this.getChit())
 						this.setGo(2);					
 				}
-				else if (this.isPlausible(this.getFR()+1,y))						
-				{
+				else if (this.isPlausible(this.getFR()+1,y)){
 					this.fireShot(this.getFR()+1,y);	
 					if (!this.getChit())
 						this.setGo(2);								
 				}
-				else if (this.isPlausible(this.getFR()-1,y))	
-				{
+				else if (this.isPlausible(this.getFR()-1,y)){
 					this.fireShot(this.getFR()-1,y);	
 					if (!this.getChit())
 						this.setGo(2);			
 				}
-				else
-				{
+				else{
 					this.setGo(2);
 					this.scanArea(this.getFR(),this.getFC());
 				}
@@ -708,80 +610,64 @@ public class Player {
 		}
 	}
 	
-	private void fireShot(int x, int y, int z)
-	{
+	
+	private void fireShot(int x, int y, int z){
 		this.takeShot(x,y);
-		if (this.getChit())
-		{
+		if (this.getChit()){
 			this.setGo(z);
 			this.setR(x);
 			this.setC(y);							
 		}	
 	}
 	
-	private void fireShot(int x, int y)
-	{
+	private void fireShot(int x, int y){
 		this.takeShot(x,y);
-		if (this.getChit())
-		{			
+		if (this.getChit()){			
 			this.setR(x);
 			this.setC(y);							
 		}	
 	}
 	
-	public void takeShot(int x,int y)
-	{				
+	public void takeShot(int x,int y){				
 		this.setShots();
-		if (Battleship.getPlayers(Battleship.getEnemy()).getHitOrMiss(x,y))
-		{
+		if (Battleship.getPlayers(Battleship.getEnemy()).getHitOrMiss(x,y)){
 			this.setHits();
-			if (!Battleship.getPlayers(Battleship.getEnemy()).isSunk(x,y))
-			{
+			if (!Battleship.getPlayers(Battleship.getEnemy()).isSunk(x,y)){
 				Battleship.getPlayers(Battleship.getEnemy()).setBboard(x,y,Color.orange);
-				if ((this.getUser().equals("Computer"))||(this.getUser().equals("CPU1"))||(this.getUser().equals("CPU2")))
-				{	
+				if ((this.getUser().equals("Computer"))||(this.getUser().equals("CPU1"))||(this.getUser().equals("CPU2"))){	
 					this.setMHS(x,y,1);
 					this.setChit(true);
 				}										
 			}											
 		}
-		else	
-		{	
+		else{	
 			Battleship.getPlayers(Battleship.getEnemy()).setBboard(x,y,Color.blue);
-			if ((this.getUser().equals("Computer"))||(this.getUser().equals("CPU1"))||(this.getUser().equals("CPU2")))
-			{	
+			if ((this.getUser().equals("Computer"))||(this.getUser().equals("CPU1"))||(this.getUser().equals("CPU2"))){	
 				this.setMHS(x,y,0);
 				this.setChit(false);
 			}
 		}					
 	}		
 	
-	public void humanAttack(ActionEvent v)
-	{
-		if (this.getMove())
-		{				
+	public void humanAttack(ActionEvent v){
+		if (this.getMove()){				
 			Object source = v.getSource();
 			outer:						
-			for (i=0;i<10;i++)
-			{				
-				for (j=0;j<10;j++)
-				{					
-					if (source==Battleship.getPlayers(Battleship.getEnemy()).getBboard(i,j))
-					{								
+			for (i=0;i<10;i++){				
+				for (j=0;j<10;j++){					
+					if (source==Battleship.getPlayers(Battleship.getEnemy()).getBboard(i,j)){								
 						if ((Battleship.getPlayers(Battleship.getEnemy()).getBboard(i,j).getBackground()==Color.black)||
 							(Battleship.getPlayers(Battleship.getEnemy()).getBboard(i,j).getBackground()==Color.orange)||
-							(Battleship.getPlayers(Battleship.getEnemy()).getBboard(i,j).getBackground()==Color.blue))
-						{
-							JOptionPane.showMessageDialog(null,"You tri"
-							+"ed that spot already.","Wasted Shot",
+							(Battleship.getPlayers(Battleship.getEnemy()).getBboard(i,j).getBackground()==Color.blue)){
+							JOptionPane.showMessageDialog(null,"Ya Has elegido "
+							+" ese punto antes.","Disparo Desperdiciado",
 							JOptionPane.ERROR_MESSAGE);								
 						}
 						else
 							this.takeShot(i,j);								
 						break outer;						
 					}
-					else if (source==this.getBboard(i,j))
-					{
+					else if (source==this.getBboard(i,j)){
 						JOptionPane.showMessageDialog(null,"No tienes que"
 						+" disparar a tus propios barcos!","pierdes un turno",
 						JOptionPane.WARNING_MESSAGE);
@@ -796,26 +682,22 @@ public class Player {
 			Player.isStatsOpen();
 			this.setMove(false);
 			this.getTimer().stop();				
-			if (Battleship.getPlayers(Battleship.getEnemy()).getShipsLeft()!=0)
-			{						
+			if (Battleship.getPlayers(Battleship.getEnemy()).getShipsLeft()!=0){						
 				if (!Battleship.getPlayers(Battleship.getEnemy()).getUser().equals("Computer"))
 					Battleship.getPlayers(Battleship.getEnemy()).setMove(true);					
 				Battleship.getPlayers(Battleship.getEnemy()).getTimer().start();
 				Battleship.flipYou();
 			}
-			else
-			{
-				if (Battleship.getPlayers(Battleship.getEnemy()).getUser().equals("Computer"))//change once
+			else{
+				if (Battleship.getPlayers(Battleship.getEnemy()).getUser().equals("Computer")){//change once
 					//menu options work
-				{
 					JOptionPane.showMessageDialog(null,"Has Ganado!",
 					"Muchas Felcidades!",JOptionPane.INFORMATION_MESSAGE);
 					//if (this.getUser().equals("Stupid"))
 						//JOptionPane.showMessageDialog(null,"Maybe you're no"
 						//+"t that stupid after all!","",JOptionPane.INFORMATION_MESSAGE);
 				}
-				else
-				{
+				else{
 					JOptionPane.showMessageDialog(null,
 					this.getUser()+" won!!!","It's A Celebration"
 					+"!",JOptionPane.INFORMATION_MESSAGE);
@@ -828,74 +710,57 @@ public class Player {
 	}
 
 	//es el listener para los botones de la matriz en el tablero al jugar
-	public class CompAttack implements ActionListener
-	{	
-		public void actionPerformed(ActionEvent v)
-		{				
+	public class CompAttack implements ActionListener{	
+		public void actionPerformed(ActionEvent v){				
 			Battleship.getPlayers(Battleship.getYou()).compattack();			
 		}
 	}
 	
-	public void compattack()
-	{					
+	public void compattack(){					
 		if (this.getChit())
 			this.scanArea(this.getR(),this.getC());					
-		else
-		{
+		else{
 			if (this.getGo()!=2)
 				this.scanArea(this.getFR(),this.getFC());			
-			else
-			{
+			else{
 				blah:
-				for (i=0;i<10;i++)
-				{
+				for (i=0;i<10;i++){
 					for (j=0;j<10;j++)
-						if (this.getMHS(i,j)==1)
-						{
-							if (this.getMHS(this.getFR(),this.getFC())==2)
-							{
+						if (this.getMHS(i,j)==1){
+							if (this.getMHS(this.getFR(),this.getFC())==2){
 								if ((this.isPlausible(i+1,j))||(this.isPlausible(i,j+1))
-								||(this.isPlausible(i-1,j))||(this.isPlausible(i,j-1)))
-								{
+								||(this.isPlausible(i-1,j))||(this.isPlausible(i,j-1))){
 									this.scanArea(i,j);
 									this.setFR(i);
 									this.setFC(j);										
 									break blah;
 								}
 							}
-							else 
-							{
+							else {
 								this.scanArea(this.getFR(),this.getFC());									
 								break blah;																		
 							}								
 						}
 				}
-				if (i==10)
-				{							
-					do
-					{									
-						for (i=0;i<10;i++)
-						{
+				if (i==10){							
+					do{									
+						for (i=0;i<10;i++){
 							for (j=0;j<10;j++)
-								if (this.getMHS(i,j)==3)
-								{										
+								if (this.getMHS(i,j)==3){										
 									rows.add(new Integer(i));
 									break;
 								}
 						}									
-						do
-						{
+						do{
 							r=(int)(Math.random()*10);
 						}
 						while(r>=rows.size());												
 						r=((Integer)rows.elementAt(r)).intValue();						
-						for (i=0;i<10;i++)
-						{
+						for (i=0;i<10;i++){
 							if (this.getMHS(r,i)==3)
 								cols.add(new Integer(i));														
 						}											
-						do
-						{
+						do{
 							c=(int)(Math.random()*10);
 						}
 						while(c>=cols.size());											
@@ -903,13 +768,11 @@ public class Player {
 						if (this.isSurrounded(r,c))							
 							this.setMHS(r,c,0);							
 						else if ((!Battleship.getPlayers(Battleship.getEnemy()).rshipsh(r,c))
-							&&(!Battleship.getPlayers(Battleship.getEnemy()).rshipsv(r,c)))
-						{							
+							&&(!Battleship.getPlayers(Battleship.getEnemy()).rshipsv(r,c))){							
 							this.setMHS(r,c,0);
 						}															
 						else if ((Battleship.getPlayers(Battleship.getEnemy()).getShipsLeft()==1)
-							&&(this.getLastShip()==0))
-						{								
+							&&(this.getLastShip()==0)){								
 							for (int i=0;i<5;i++)
 								if (Battleship.getPlayers(Battleship.getEnemy()).boats[i].getHitsLeft()!=0)
 									this.setLastShip(Battleship.getPlayers(Battleship.getEnemy()).boats[i].getLength());								
@@ -919,8 +782,7 @@ public class Player {
 					}
 					while(this.getMHS(r,c)!=3);						
 					this.takeShot(r,c);
-					if (this.getChit())
-					{	
+					if (this.getChit()){	
 						this.setFR(r);	
 						this.setFC(c);
 					}					
@@ -929,33 +791,24 @@ public class Player {
 		}
 		isStatsOpen();
 		this.getTimer().stop();
-		if (Battleship.getPlayers(Battleship.getEnemy()).getShipsLeft()>0)
-		{
+		if (Battleship.getPlayers(Battleship.getEnemy()).getShipsLeft()>0){
 			if ((!Battleship.getPlayers(Battleship.getEnemy()).getUser().equals("CPU1"))
 				&&(!this.getUser().equals("CPU2")))
 				Battleship.getPlayers(Battleship.getEnemy()).setMove(true);	
 			Battleship.getPlayers(Battleship.getEnemy()).getTimer().start();
 			Battleship.flipYou();
 		}
-		else
-		{
-			if (this.getUser().equals("Computer"))
-			{
-				JOptionPane.showMessageDialog(null,"You Lost!","Sorry!",
+		else{
+			if (this.getUser().equals("Computer")){
+				JOptionPane.showMessageDialog(null,"Has Perdido!","Lo Siento!",
 				JOptionPane.INFORMATION_MESSAGE);
 				if (Battleship.getPlayers(Battleship.getEnemy()).getUser().equals("Stupid"))
 					JOptionPane.showMessageDialog(null,"Stupid!","Sorry!",
 					JOptionPane.INFORMATION_MESSAGE);
-				for (i=0;i<10;i++)
-				{
-					for (j=0;j<10;j++)
-					{
+				for (i=0;i<10;i++){
+					for (j=0;j<10;j++){
 						if ((!this.getWhatShip(i,j).equals(" "))
-							&&(((this.getBboard(i,j
-						).getBackground())!=Color.black)&&
-									((this.getBboard(i,j
-								).getBackground())!=Color.orange)))							
-							{
+							&&(((this.getBboard(i,j).getBackground())!=Color.black)&&((this.getBboard(i,j).getBackground())!=Color.orange))){
 								this.setBboard(i,j,Battleship.getColor());
 							}
 					}

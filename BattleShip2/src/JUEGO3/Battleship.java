@@ -10,23 +10,20 @@ import java.net.*;
 
 public class Battleship extends JFrame {
 
-	
-	private static JButton ok = new JButton("OK"),//closes stats menu
-						   done =new JButton("Done");//closes options menu
-	private static JFrame estadisticas= new JFrame("Estadisticas"),//holds stats
+	private static JButton ok = new JButton("OK"),//boton para cerrar el menu de stats.
+						   done =new JButton("Done");//boton para cerrar el menu de opciones.
+	private static JFrame estadisticas= new JFrame("Estadisticas"),//holds stats.
 						  options=new JFrame("Opciones");//holds opts
 	private static JLabel data,//used for stats menu
 						  title;//used for options menu
 	private static JPanel stats=new JPanel(),//used for stats menu
 						  opts,//used for options menu
-						  inputpanel;//for manually inputting barcos
+						  inputpanel;//para ingresar los barcos de forma manual
 	private static Container b,c,d;//board and input panel 
 	private JPanel input;//input bar	
-	private static JMenuItem m,pvp,pvc,cvc;//menu items	(menu,jugadro v jugador , jugador c compu , compu, compu)
-	private static String[] cletras = {" ","A","B","C","D","E","F","G","H","I","J"},
-	//array of letters used for combo boxes
-			    	 cnumeros = {" ","1","2","3","4","5","6","7","8","9","10"},
-	//array of numbers used for combo boxes
+	private static JMenuItem m,pvp,pvc,cvc;//items del menu	(menu,jugadro v jugador , jugador c compu , compu, compu)
+	private static String[] cletras = {" ","A","B","C","D","E","F","G","H","I","J"},//array de letras usada para el combo box
+			    	 cnumeros = {" ","1","2","3","4","5","6","7","8","9","10"},//array de numeros usado para el combo box
 					 barcos = {"Carrier","Battleship","Submarine","Destroyer","Patrol Boat"},//string usado para guardar barcos dentro del combo box
 					 direccion = {"Horizontal","Vertical"},//posiciones que pueden tener los barcos dentro del combo box
 					 level={"Normal", "Ridiculously Hard"}, 
@@ -59,7 +56,7 @@ public class Battleship extends JFrame {
 	private static JButton deploy=new JButton("COLOCAR");
 	private static int w=0,a=0,s=0,t=0,e=0;//counters to track the use of all barcos
 	private static String[][] shiphit=new String[10][10];
-	private static String user,user2;
+	private static String user,user2,user3;
 	private static Color[] color={Color.cyan,Color.green,Color.yellow,Color.magenta,
 									Color.pink,	Color.red,	Color.white};		 	
 	private static Object selectedValue=" ",
@@ -732,10 +729,10 @@ public class Battleship extends JFrame {
 			{			
 				stats=new JPanel();
 				ok.addActionListener(new OkListener());		
-				estadisticas.setSize(300,300);
+				estadisticas.setSize(400,400);
 				estadisticas.setResizable(false);		
 				estadisticas.getContentPane().add(ok,BorderLayout.SOUTH);
-				//estadisticas.setLocation(700,200);				
+				estadisticas.setLocation(500,200);				
 			}	
 			
 			public void actionPerformed(ActionEvent e)
@@ -862,7 +859,7 @@ public class Battleship extends JFrame {
 			
 			public void setup()
 			{			
-				opts=new JPanel(new GridLayout(4,2));
+				opts=new JPanel(new GridLayout(5,3));
 				title=new JLabel("Computer AI");
 				opts.add(title);			
 				aiLevel.setSelectedIndex(0);			
@@ -917,13 +914,10 @@ public class Battleship extends JFrame {
 						(aiLevel.getSelectedIndex()!=prevLevel)||
 						(playsFirst.getSelectedIndex()!=prevFirst))
 					{
-						JOptionPane.showMessageDialog(null,"Changes will take"+
-						" place at the start of a new game.",""
+						JOptionPane.showMessageDialog(null,"Los Cambios Tomaran "+" Lugar al Comenzar un nuevo juego.",""
 						,JOptionPane.PLAIN_MESSAGE);
-						if (shipLayout.getSelectedIndex()!=prevLayout)
-							prevLayout=shipLayout.getSelectedIndex();
-						if (playsFirst.getSelectedIndex()!=prevFirst)
-							prevFirst=playsFirst.getSelectedIndex();
+						if (shipLayout.getSelectedIndex()!=prevLayout)prevLayout=shipLayout.getSelectedIndex();
+						if (playsFirst.getSelectedIndex()!=prevFirst)prevFirst=playsFirst.getSelectedIndex();
 						if (aiLevel.getSelectedIndex()!=prevLevel)
 							prevLevel=aiLevel.getSelectedIndex();
 					}
@@ -941,30 +935,20 @@ public class Battleship extends JFrame {
 		
 			Battleship gui= new Battleship();
 			
-			while (gui.isActive())
-			{
+			while (gui.isActive()){
 				while (selectedValue.equals(" "))
 					{	}
-				System.out.println("xenophobia");
-				System.out.println("Object = "+selectedValue);
-				if (selectedValue.equals("Online"))
-				{	
+				if (selectedValue.equals("Online")){	
 					selectedValue=" ";
 					while (ready!=1)
 					{ }			
-					
-					try
-					{
+					try{
 						me=new BattleshipClient();
-						if (!me.getServerName().equals("invalid"))
-						{
+						if (!me.getServerName().equals("invalid")){
 							me.sendShips();
-							while (!gameover)
-							{
-								if (!players[you].getMove())	
-								{
-									try
-									{
+							while (!gameover){
+								if (!players[you].getMove()){
+									try{
 										me.listen();							
 									}
 									catch (IOException e){ System.out.println("Aw naw."); }					
@@ -974,8 +958,7 @@ public class Battleship extends JFrame {
 								me.results();
 							}								
 						}
-						else
-						{
+						else{
 							b.removeAll();
 							c.removeAll();
 							d.removeAll();
@@ -989,7 +972,7 @@ public class Battleship extends JFrame {
 						}					
 					}					
 					catch (IOException e)
-					{ System.out.println("You Suck"); }
+					{ System.out.println("Apestas Cuate"); }
 				}			
 			}		//System.out.println("okay");		
 		}

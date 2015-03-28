@@ -6,8 +6,7 @@ import javax.swing.*;
 public class AttackListener implements ActionListener {
 	int i,j;
 	
-	public void actionPerformed(ActionEvent v)
-	{						
+	public void actionPerformed(ActionEvent v){						
 		Battleship.getPlayers(Battleship.getYou()).humanAttack(v);				
 	}
 }

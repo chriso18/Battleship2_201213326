@@ -29,8 +29,8 @@ public class InternetListener implements ActionListener {
 							(Battleship.getPlayers(1).getBboard(i,j).getBackground()==Color.orange)||
 							(Battleship.getPlayers(1).getBboard(i,j).getBackground()==Color.blue))
 						{
-							JOptionPane.showMessageDialog(null,"You tri"
-							+"ed that spot already.","Wasted Shot",
+							JOptionPane.showMessageDialog(null,"ya has"
+							+" pinchado ese punto.","Turno Desperdiciado",
 							JOptionPane.ERROR_MESSAGE);
 							Battleship.getClient().fireShot();								
 						}
@@ -43,8 +43,8 @@ public class InternetListener implements ActionListener {
 					else if (source==(Battleship.getPlayers(0).getBboard(i
 						,j)))
 					{
-						JOptionPane.showMessageDialog(null,"You are not suppose"
-						+"d to fire on your own board!","Lost Turn",
+						JOptionPane.showMessageDialog(null,"no debes de"
+						+" disparar a tus propios barcos!","Perdistes un Turno",
 						JOptionPane.WARNING_MESSAGE);
 						Battleship.getClient().fireShot();		
 						break outer;							
@@ -58,8 +58,8 @@ public class InternetListener implements ActionListener {
 		{
 			if (!Battleship.getGameOver())
 			{
-				JOptionPane.showMessageDialog(null,"You cannot not play yet.",
-				"Wait",JOptionPane.WARNING_MESSAGE);				
+				JOptionPane.showMessageDialog(null,"no puedes jugar todavia.",
+				"Espera",JOptionPane.WARNING_MESSAGE);				
 			}
 			else
 			{

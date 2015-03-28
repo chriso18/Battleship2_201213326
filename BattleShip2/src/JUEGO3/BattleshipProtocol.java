@@ -11,34 +11,29 @@ public class BattleshipProtocol {
 	private Game[] users=new Game[2];	
 	//Timer[] timesup=new Timer(10000,new LostTurn());	
 	
-	public BattleshipProtocol(BattleshipThread w, BattleshipThread z)
-	{
+	public BattleshipProtocol(BattleshipThread w, BattleshipThread z){
 		users[0]=new Game(w);
 		users[1]=new Game(z); 				
 	}					
 							 
-    public boolean play () 
-	{
+    public boolean play () {
 		users[play].getThread().playNow();
 		users[wait].getThread().sendMessage("getmove");
 		while (users[play].getThread().turnOver())
 			{}		
 		System.out.println("Behave");		
-		if (users[wait].getShipsLeft()!=0)
-		{
+		if (users[wait].getShipsLeft()!=0){
 		  if (x!=-1)
 			users[wait].getThread().sendResults(x,y);
 		  else
 			users[wait].getThread().sendResults();
 		  users[wait].getThread().sendMessage("keepplaying");
 		  users[play].getThread().sendMessage("keepplaying");
-		  if (play==0)
-		  {
+		  if (play==0) {
 				play=1;
 				wait=0;			
 		  }
-		  else
-		  {
+		  else{
 				play=0;
 				wait=1;					
 		  }
@@ -49,8 +44,7 @@ public class BattleshipProtocol {
 			//wait();
 			return false;
 		}
-		else
-		{
+		else{
 		  	users[wait].getThread().sendResults(x,y);
 		  	users[wait].getThread().sendMessage("gameover");
 			users[play].getThread().sendMessage("gameover");
@@ -58,21 +52,18 @@ public class BattleshipProtocol {
 		}
 	}
 	
-	public String results(int x,int y)
-	{
+	public String results(int x,int y){
 		
 		this.x=x;
 		this.y=y;
 		return users[wait].whatHappened(x,y);					
 	}
 	
-	public Game getCurrentUser()
-	{
+	public Game getCurrentUser(){
 		return users[play];
 	}
 
-	public class Game
-	{
+	public class Game{
 		private BattleshipThread myThread;
 		private Timer myTimer;
 		private String[][] c=new String[10][10];		
@@ -81,8 +72,7 @@ public class BattleshipProtocol {
 		private int i,j;
 		
 		
-		public Game(BattleshipThread w)
-		{
+		public Game(BattleshipThread w){
 			myThread=w;
 			c=w.sendBoard();
 			shipsleft=5;
@@ -90,33 +80,25 @@ public class BattleshipProtocol {
 			myTimer=new Timer(10000,new LostTurn());			
 		}
 		
-		public String[][] getBoard()
-		{
+		public String[][] getBoard(){
 			return c;
 		}
 		
-		public class LostTurn implements ActionListener
-		{
-			public void actionPerformed(ActionEvent v)
-			{	
+		public class LostTurn implements ActionListener{
+			public void actionPerformed(ActionEvent v){	
 				users[wait].getThread().setTurnOver();
 			}				
 		}
 		
-		public String whatHappened(int x, int y)
-		{
-			if (!this.c[x][y].equals(" "))
-			{
-				for (i=0;i<5;i++)
-				{
-					if (this.c[x][y].equals(rafts[i].getName()))
-					{
+		public String whatHappened(int x, int y){
+			if (!this.c[x][y].equals(" ")){
+				for (i=0;i<5;i++){
+					if (this.c[x][y].equals(rafts[i].getName())){
 						rafts[i].setHitsLeft();
 						break;						
 					}
 				}
-				if (rafts[i].getHitsLeft()==0)
-				{  
+				if (rafts[i].getHitsLeft()==0){  
 					shipsleft-=1;
 					if (rafts[i].getDirect()==0)
 						return ("hit shipsunk "+rafts[i].getName()+" "+rafts[i].getX()+" "+rafts[i].getY()+" "+rafts[i].getDirect()+" "+rafts[i].getEndX());
@@ -130,32 +112,26 @@ public class BattleshipProtocol {
 				return "miss";			
 		}
 		
-		public int getShipsLeft()
-		{
+		public int getShipsLeft(){
 			return this.shipsleft;			
 		}
 		
-		public String whatWasHit(int x, int y)
-		{
+		public String whatWasHit(int x, int y){
 			return this.c[x][y];			
 		}
 		
-		public BattleshipThread getThread()
-		{
+		public BattleshipThread getThread(){
 			return this.myThread;
 		}
 		
-		private void mapShips(String[][] c)
-		{
+		private void mapShips(String[][] c){
 			int g,i,j,k,//counters
 				x=-1,y=-1,//coordinates
 				length=0;
 			
-			for (i=0;i<5;i++)
-			{
+			for (i=0;i<5;i++){
 				g=0;
-				switch (i)
-				{
+				switch (i){
 					case 0:		length=5;
 					break;
 					case 1:		length=4;
@@ -168,20 +144,15 @@ public class BattleshipProtocol {
 					break;							
 				}
 				good:
-				for (j=0;j<10;j++)
-				{			
-					for (k=0;k<10;k++)
-					{
-						if (c[j][k].equals(Battleship.getShips(i)))
-						{
-							if (g==0)
-							{
+				for (j=0;j<10;j++){			
+					for (k=0;k<10;k++){
+						if (c[j][k].equals(Battleship.getShips(i))){
+							if (g==0){
 								x=j;
 								y=k;								
 							}
 							g+=1;
-							if (g==length)
-							{
+							if (g==length){
 								if (x==j)
 									rafts[i]=new Ship(c[j][k],1,length,x,y
 								,j,k);
