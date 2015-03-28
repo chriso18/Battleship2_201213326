@@ -43,7 +43,7 @@ public class Battleship extends JFrame{
 	private JTextField mbar = new JTextField();//message bar	
 	private static int enemy=1,
 				i,j,//counters							
-				length=5,
+				length=6,
 				you=0,
 				prevcolor=0,//index of previous color
 				prevFirst=0,
@@ -144,13 +144,11 @@ public class Battleship extends JFrame{
 	
 	
 	public static void flipYou(){
-		if (you==1)
-		{	
+		if (you==1){	
 			you=0;
 			enemy=1;
 		}
-		else
-		{
+		else{
 			you=1;
 			enemy=0;
 		}	
@@ -271,6 +269,7 @@ public class Battleship extends JFrame{
 		m = new JMenu("Nuevo Juego");		
 		menu.add(m);
 		
+		//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 		//submenu de Nuevo Juego
 		GameListener stuff = new GameListener();
 		pvp = new JMenuItem("Player vs. Player");		
@@ -283,9 +282,6 @@ public class Battleship extends JFrame{
 		cvc.addActionListener(stuff);
 		m.add(cvc);
 		
-		m = new JMenuItem("Rules");
-		m.addActionListener(new RulesListener());
-		menu.add(m);
 		m = new JMenuItem("Estadisticas");
 		m.addActionListener(new StatsListener());		
 		menu.add(m);
@@ -301,16 +297,17 @@ public class Battleship extends JFrame{
 	//creates panels that used to place ships
 	public JPanel shipinput()
 	{
+		input= new JPanel();
 		cbar.setSelectedIndex(0);	
 		cbar.addActionListener(new ShipsListener());
 		TitledBorder title;//used for titles around combo boxes
-		title = BorderFactory.createTitledBorder("Ships");
+		title = BorderFactory.createTitledBorder("Barcos");
 		cbar.setBorder(title);	
 		input.add(cbar);		
 		cdir.setSelectedIndex(0);	
 		cdir.addActionListener(new DirectListener());	
 		input.add(cdir);
-		title = BorderFactory.createTitledBorder("Direction");
+		title = BorderFactory.createTitledBorder("Direccion");
 		cdir.setBorder(title);		
 		deploy.setEnabled(false);
 		deploy.addActionListener(new DeployListener());
@@ -319,38 +316,30 @@ public class Battleship extends JFrame{
 	}	
 	
 	//creates board for manual ship placement
-	public JPanel setBoard(int n)
-	{
+	public JPanel setBoard(int n){
 		players[n].setMyBoard(new JPanel(new GridLayout(11,11)));//panel to store board		
 		JTextField k;		
-		for (i=0;i<11;i++)
-		{			
-			for (j=0;j<11;j++)
-			{
-				if ((j!=0)&&(i!=0))
-				{					
+		for (i=0;i<11;i++){			
+			for (j=0;j<11;j++){
+				if ((j!=0)&&(i!=0)){					
 					players[n].getBboard(i-1,j-1).addActionListener(new BoardListener());
 					players[n].getMyBoard().add(players[n].getBboard(i-1,j-1));
 				}				
-				if (i==0)
-				{				
-					if (j!=0)
-					{	
+				if (i==0){				
+					if (j!=0){	
 						//used to display row of numbers
 						k= new JTextField(Battleship.getCnumbers(j));
 						k.setEditable(false);
 						k.setHorizontalAlignment((int)JFrame.CENTER_ALIGNMENT); 
 					}									
-					else 
-					{	
+					else {	
 						//used to display column of numbers
 						k= new JTextField();
 						k.setEditable(false);						
 					}
 					players[n].getMyBoard().add(k);
 				}
-				else if (j==0)					
-				{	
+				else if (j==0){	
 					k= new JTextField(Battleship.getCletters(i));	
 					k.setEditable(false);
 					k.setHorizontalAlignment((int)JFrame.CENTER_ALIGNMENT); 
@@ -362,56 +351,44 @@ public class Battleship extends JFrame{
 	}
 	
 	//creates board and automatically places ship
-	public JPanel autoBoard(int u,int t) 
-	{
+	public JPanel autoBoard(int u,int t) {
 		players[u].setGBoard(new JPanel(new GridLayout(11,11)));//panel to store board		
 		JTextField k;	
 		if (!players[u].getUser().equals("Unknown"))
-			for (i=0;i<5;i++)
-			{				
+			for (i=0;i<5;i++){				
 				players[u].setBoats(i,players[u].getBoats(i).compinput(i,u));
 			}		
-		for (i=0;i<11;i++)
-		{			
-			for (j=0;j<11;j++)
-			{
-				if ((j!=0)&&(i!=0))
-				{								
-					if ((players[u].getUser().equals("Computer"))||(isLocal()))						
-					{						
+		for (i=0;i<11;i++){			
+			for (j=0;j<11;j++){
+				if ((j!=0)&&(i!=0)){								
+					if ((players[u].getUser().equals("Computer"))||(isLocal()))						{						
 						players[u].getBboard(i-1,j-1).addActionListener(new AttackListener());									
 					}						
 					else if
-						((players[t].getUser().equals("Computer"))||(players[t].getUser().equals("CPU1"))||(players[t].getUser().equals("CPU2"))||(players[t].getUser().equals("Unknown")))			
-					{
+						((players[t].getUser().equals("Computer"))||(players[t].getUser().equals("CPU1"))||(players[t].getUser().equals("CPU2"))||(players[t].getUser().equals("Unknown")))	{
 						if (players[u].getHitOrMiss(i-1,j-1))
 							players[u].setBboard(i-1,j-1,getColor());						
 					}
-					else
-					{
+					else{
 						players[u].getBboard(i-1,j-1).addActionListener(new InternetListener());		
 					}
 					players[u].getGBoard().add(players[u].getBboard(i-1,j-1));
 				}				
-				if (i==0)
-				{				
-					if (j!=0)
-					{	
+				if (i==0){				
+					if (j!=0){	
 						//used to display row of numbers
 						k= new JTextField(Battleship.getCnumbers(j));
 						k.setEditable(false);
 						k.setHorizontalAlignment((int)JFrame.CENTER_ALIGNMENT); 
 					}									
-					else 
-					{	
+					else {	
 						//used to display column of numbers
 						k= new JTextField();
 						k.setEditable(false);						
 					}
 					players[u].getGBoard().add(k);
 				}
-				else if (j==0)					
-				{	
+				else if (j==0)					{	
 					k= new JTextField(Battleship.getCletters(i));	
 					k.setEditable(false);
 					k.setHorizontalAlignment((int)JFrame.CENTER_ALIGNMENT); 
@@ -422,21 +399,20 @@ public class Battleship extends JFrame{
 		return players[u].getGBoard();		
 	}
 	
+	
+	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 	//Listener for combo boxes used to layout ships 
-	private class ShipsListener implements ActionListener
-	{	
-		public void actionPerformed(ActionEvent v)
-		{				
+	private class ShipsListener implements ActionListener{	
+		public void actionPerformed(ActionEvent v){				
 			sindex=cbar.getSelectedIndex();
 			if (players[you].getBoats(sindex)!=null)
 				cdir.setSelectedIndex(players[you].getBoats(sindex).getDirect());
-			switch (sindex)
-			{
-				case 0:		length=5;
+			switch (sindex){
+				case 0:		length=6;
 				break;
-				case 1:		length=4;
+				case 1:		length=5;
 				break;
-				case 2:		length=3;	
+				case 2:		length=4;	
 				break;
 				case 3:		length=3;
 				break;
@@ -725,6 +701,7 @@ public class Battleship extends JFrame{
 		}	
 	}	
 	
+	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 	//Listener for Rules menu
 	private class RulesListener implements ActionListener{	
 		public void actionPerformed(ActionEvent e){	
@@ -752,6 +729,7 @@ public class Battleship extends JFrame{
 			//estadisticas.setLocation(700,200);				
 		}	
 		
+		//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 		public void actionPerformed(ActionEvent e){				
 			if (data==null)
 				setup();
@@ -832,6 +810,8 @@ public class Battleship extends JFrame{
 		}	
 	}
 	
+	
+	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 	//Listener for Deploy Button 
 	private class DeployListener implements ActionListener{	
 		public void actionPerformed(ActionEvent v){	
@@ -857,6 +837,7 @@ public class Battleship extends JFrame{
 		}	
 	}
 
+	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 	//Listener for Options menu
 	public class OptionsListener implements ActionListener{	
 		public void actionPerformed(ActionEvent e){		
@@ -865,7 +846,8 @@ public class Battleship extends JFrame{
 			else
 				options.setVisible(true);					
 		}		
-		
+
+		//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 		public void setup(){			
 			opts=new JPanel(new GridLayout(4,2));
 			title=new JLabel("Computer AI");
@@ -910,6 +892,7 @@ public class Battleship extends JFrame{
 			}
 		}	
 		
+		//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 		//Listener for ok button in estadisticas menu
 		private class DoneListener implements ActionListener{	
 			public void actionPerformed(ActionEvent e){	
