@@ -18,11 +18,13 @@ public class Player {
 	private String user;//user name
 	//private JPanel board;//panel to store game board
 	private int shipsleft;
-	private int shots;// disparos recibidos
+	private int shots;// shots taken
 	private boolean[][] hitormiss=new boolean[10][10];
-	private boolean chit=false;//verifica si el com acerto o no	
-	private JButton[][] bboard = new JButton [10][10];//gbutton=new JButton [10][10];
-	private int[][] mhs=new int[10][10];//se usa para el com para ver si fallo(0)//, golpeo(1), o lo hundio(2); default es (3)
+	private boolean chit=false;//checks if computer hit ship or not		
+	private JButton[][] bboard = new JButton [10][10];
+						//gbutton=new JButton [10][10];
+	private int[][] mhs=new int[10][10];//used by computer to track miss(0)
+	//, hit(1), or sunk(2); default is (3)
 	private boolean move;
 	private JPanel gboard,myboard;
 	private Vector rows=new Vector();
@@ -30,8 +32,8 @@ public class Player {
 	private Timer timeleft;//
 	private String[][] whatship=new String[10][10];//stores name of ships or " "
 	private int go=2;//direction for the computer to look for ships
-	private int fr,fc;//primer acierto hecho por el com			
-	private int lastship;//longitud del barco restante
+	private int fr,fc;//first hits made by computer					
+	private int lastship;//length of the last ship left
 	private NumberFormat nf = NumberFormat.getPercentInstance();
 	//private Board games
 		

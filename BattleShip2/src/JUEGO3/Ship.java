@@ -15,7 +15,8 @@ public class Ship {
 	private int hitsleft;
 	private boolean invalid;
 	
-	public Ship(String n, int d, int ln, int x, int y){
+	public Ship(String n, int d, int ln, int x, int y)
+	{
 		name=n;
 		length=ln;
 		dir=d;
@@ -25,7 +26,8 @@ public class Ship {
 		hitsleft=ln;			
 	}
 	
-	public Ship(String n, int d, int ln, int x, int y, int ex, int ey){
+	public Ship(String n, int d, int ln, int x, int y, int ex, int ey)
+	{
 		name=n;
 		length=ln;
 		dir=d;
@@ -37,53 +39,66 @@ public class Ship {
 		hitsleft=ln;			
 	}
 	
-	public String getName(){
+	public String getName()
+	{
 		return this.name;
 	}		
 	
-	public int getLength(){
+	public int getLength()
+	{
 		return this.length;
 	}
 	
-	public int getDirect(){
+	public int getDirect()
+	{
 		return this.dir;
 	}
 	
-	public int getX(){
+	public int getX()
+	{
 		return this.x1;
 	}
 	
-	public int getY(){
+	public int getY()
+	{
 		return this.y1;
 	}
 	
 	//returns the end x-point for this ship 
-	public int getEndX(){
+	public int getEndX()
+	{
 		return this.x2;
 	}
 	
 	//returns the end y-point for this ship 
-	public int getEndY(){
+	public int getEndY()
+	{
 		return this.y2;
 	}
 
-	public void setInvalid(boolean c){				
+	public void setInvalid(boolean c)
+	{				
 		this.invalid=c;
 	}
 			
-	public void setHitsLeft(){				
+	public void setHitsLeft()
+	{				
 		this.hitsleft-=1;
 	}
 	
-	public int getHitsLeft(){				
+	public int getHitsLeft()
+	{				
 		return this.hitsleft;
 	}
 	
-	public void clearship (){				
-		switch (this.dir){
+	public void clearship ()
+	{				
+		switch (this.dir)
+		{
 			case 0:	{													
 						if  (!this.invalid)
-							for (j=this.y1;j<this.y2;j++){
+							for (j=this.y1;j<this.y2;j++)
+							{
 								Battleship.getPlayers(Battleship.getYou()).setBboard(this.x1,j,null);
 								Battleship.getPlayers(Battleship.getYou()).setHitOrMiss(this.x1,j,false);
 								Battleship.getPlayers(Battleship.getYou()).setWhatShip(this.x1,j," ");	
@@ -92,7 +107,8 @@ public class Ship {
 			break;
 			case 1:	{	
 						if (!this.invalid)	
-							for (i=this.x1;i<this.x2;i++){
+							for (i=this.x1;i<this.x2;i++)
+							{
 								Battleship.getPlayers(Battleship.getYou()).setBboard(i,this.y1,null);
 								Battleship.getPlayers(Battleship.getYou()).setHitOrMiss(i,this.y1,false);
 								Battleship.getPlayers(Battleship.getYou()).setWhatShip(i,this.y1," ");	
@@ -103,10 +119,13 @@ public class Ship {
 	}
 	
 	//Method to place the barcos	
-	public void placeship(){				
-		switch (this.dir){
+	public void placeship()
+	{				
+		switch (this.dir)
+		{
 			case 0:	{												
-						if ((this.length+this.y1)>10){
+						if ((this.length+this.y1)>10)								
+						{
 							JOptionPane.showMessageDialog(null,"A "+
 							this.name+" placed in a "+Battleship.getDirection(this.dir)+
 							" direction will not fit at position "
@@ -114,21 +133,25 @@ public class Ship {
 							"Invalid Placement",JOptionPane.ERROR_MESSAGE);
 							this.invalid=true;
 						}   								
-						else{												
+						else
+						{												
 							j=0;
 							while ((j!=this.length)&&(!Battleship.getPlayers(Battleship.getYou()).getHitOrMiss(this.x1,this.y1+j)))
 								j++;
-							if (j!=this.length){
+							if (j!=this.length)
+							{
 								JOptionPane.showMessageDialog(null,"Positio"
 								+"n "+Battleship.getCletters(this.x1+1)+
 								Battleship.getCnumbers(this.y1+j+1)+" is already occupied.",
 								"Invalid Placement",JOptionPane.ERROR_MESSAGE);
 								this.invalid=true;
 							}
-							else{
+							else
+							{
 								this.x2=this.x1;
 								this.y2=this.y1+this.length;								
-								for (j=this.y1;j<this.y2;j++){
+								for (j=this.y1;j<this.y2;j++)
+								{
 									Battleship.getPlayers(Battleship.getYou()).setBboard(this.x1,j,Battleship.getColor());
 									Battleship.getPlayers(Battleship.getYou()).setHitOrMiss(this.x1,j,true);
 									Battleship.getPlayers(Battleship.getYou()).setWhatShip(this.x1,j,this.name);										
@@ -139,7 +162,8 @@ public class Ship {
 					}
 			break;
 			case 1:	{		
-						if ((this.x1+this.length)>10){
+						if ((this.x1+this.length)>10)								
+						{
 							JOptionPane.showMessageDialog(null,"A "+
 							this.name+" placed in a "+Battleship.getDirection(this.dir)+
 							" direction will not fit at position "
@@ -147,22 +171,26 @@ public class Ship {
 							"Invalid Placement",JOptionPane.ERROR_MESSAGE);
 							this.invalid=true;
 						}
-						else{							
+						else
+						{							
 							j=0;
 							while ((j!=this.length)
 								&&(!Battleship.getPlayers(Battleship.getYou()).getHitOrMiss(this.x1+j,this.y1)))
 								j++;
-							if (j!=this.length){
+							if (j!=this.length)
+							{
 								JOptionPane.showMessageDialog(null,"Positio"
 								+"n "+Battleship.getCletters(this.x1+j+1)+
 								Battleship.getCnumbers(this.y1+1)+" is already occupied.",
 								"Invalid Placement",JOptionPane.ERROR_MESSAGE);
 								this.invalid=true;
 							}
-							else{
+							else
+							{
 								this.y2=this.y1;
 								this.x2=this.x1+this.length;										
-								for (i=this.x1;i<this.x2;i++){
+								for (i=this.x1;i<this.x2;i++)
+								{
 									Battleship.getPlayers(Battleship.getYou()).setBboard(i,this.y1,Battleship.getColor());
 									Battleship.getPlayers(Battleship.getYou()).setHitOrMiss(i,this.y1,true);
 									Battleship.getPlayers(Battleship.getYou()).setWhatShip(i,this.y1,this.name);				
@@ -175,7 +203,8 @@ public class Ship {
 		}			
 		if ((Battleship.getW()>0)&&(Battleship.getA()>0)
 			&&(Battleship.getS()>0)&&(Battleship.getT()>0)
-		&&(Battleship.getE()>0)&&(!this.invalid)){	
+		&&(Battleship.getE()>0)&&(!this.invalid))				
+		{	
 			if ((!Battleship.getPlayers(Battleship.getYou()).getBoats(0).invalid)&&(!Battleship.getPlayers(Battleship.getYou()).getBoats(1).invalid)&&(!Battleship.getPlayers(Battleship.getYou()).getBoats(2).invalid)
 				&&(!Battleship.getPlayers(Battleship.getYou()).getBoats(3).invalid)&&(!Battleship.getPlayers(Battleship.getYou()).getBoats(4).invalid))
 				Battleship.setDeploy(true);
@@ -186,7 +215,8 @@ public class Ship {
 			Battleship.setDeploy(false);
 	}
 	
-	public Ship compinput(int u, int n){//metodo para colocar los barcos del comp.			
+	public Ship compinput(int u, int n)
+	{			
 		Ship boat;
 		
 		int i=0,
@@ -196,7 +226,8 @@ public class Ship {
 			shipl=0,	
 			dir;
 		
-		switch (u){	
+		switch (u)
+		{	
 			case 0:		shipl=5;
 			break;
 			case 1:		shipl=4;
@@ -208,25 +239,30 @@ public class Ship {
 			break;							
 		}		
 		
-		do{
+		do
+		{
 			x=(int)(Math.random()*10);
 			y=(int)(Math.random()*10);				
 			dir=(int)(Math.random()*2);//generates random direction within range			
 			boat=new Ship(Battleship.getShips(u),dir,shipl,x,y);				
-			switch (dir){
+			switch (dir)
+			{
 				case 0:	{												
 							if (((boat.getLength()+y)>10)||(x==0)||(y==0))								
 								boat.setInvalid(true);																				
-							else{												
+							else
+							{												
 								j=0;									
 								while ((j!=boat.getLength())&&(!Battleship.getPlayers(n).getHitOrMiss(x,y+j)))
 									j++;								
 								if (j!=boat.getLength())
 									boat.setInvalid(true);																		
-								else{
+								else
+								{
 									boat.x2=x;
 									boat.y2=y+boat.getLength();								
-									for (j=y;j<boat.y2;j++){										
+									for (j=y;j<boat.y2;j++)
+									{										
 										Battleship.getPlayers(n).setHitOrMiss(x,j,true);
 										Battleship.getPlayers(n).setWhatShip(x,j,Battleship.getShips(u));				
 									}
@@ -238,13 +274,15 @@ public class Ship {
 				case 1:	{		
 							if (((x+boat.getLength())>10)||(x==0)||(y==0))						
 								boat.setInvalid(true);							
-							else{							
+							else
+							{							
 								j=0;									
 								while ((j!=boat.getLength())&&(!Battleship.getPlayers(n).getHitOrMiss(x+j,y)))
 									j++;
 								if (j!=boat.getLength())
 									boat.setInvalid(true);							
-								else{
+								else
+								{
 									boat.y2=y;
 									boat.x2=x+boat.getLength();										
 									for (i=x;i<boat.x2;i++)
