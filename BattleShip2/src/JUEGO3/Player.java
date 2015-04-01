@@ -403,17 +403,13 @@ public class Player {
 		else
 			u=5;			
 		found:			
-		while (u<5)				
-		{
+		while (u<5){
 			g=0;						
-			if (this.boats[u].getHitsLeft()!=0)
-			{						
+			if (this.boats[u].getHitsLeft()!=0){						
 				daloop:
-				for (i=(x-(this.boats[u].getLength()));i<(x+(this.boats[u].getLength()));i++)
-				{							
+				for (i=(x-(this.boats[u].getLength()));i<(x+(this.boats[u].getLength()));i++){							
 					if ((isValid(i,y))&&((Battleship.getPlayers(Battleship.getYou()).getMHS(i,y)==3)||
-						(Battleship.getPlayers(Battleship.getYou()).getMHS(i,y)==1)))
-					{
+						(Battleship.getPlayers(Battleship.getYou()).getMHS(i,y)==1))){
 						g+=1;
 						if (g==(this.boats[u].getLength()))
 								
@@ -424,8 +420,7 @@ public class Player {
 				}						
 				if (g==(this.boats[u].getLength()))
 					break found;
-				else
-				{
+				else{
 					u++;
 					if (u==5)
 						g=0;
@@ -434,8 +429,7 @@ public class Player {
 			else
 				u++;				
 		}				
-		if (u!=5)
-		{						
+		if (u!=5){						
 			return true;			
 		}			
 		else			
@@ -523,8 +517,7 @@ public class Player {
 						this.fireShot(x,y-1,1);											
 				}
 			else if (this.isPlausible(x-1,y)){						
-					if (!Battleship.getPlayers(Battleship.getEnemy()).rshipsv(x-1,y))
-					{	
+					if (!Battleship.getPlayers(Battleship.getEnemy()).rshipsv(x-1,y)){	
 						this.setMHS(x-1,y,0);
 						this.scanArea(x,y);
 					}						

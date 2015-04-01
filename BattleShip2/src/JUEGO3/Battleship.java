@@ -68,10 +68,11 @@ public class Battleship extends JFrame{
 		setTitle("BatallaNaval");		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setJMenuBar(createMenuBar());
-		setResizable(false);			
+		setResizable(false);	
+		setLocationRelativeTo(null);
 		
 		//gets user to input name
-		user=JOptionPane.showInputDialog("Enter your name.");		
+		user=JOptionPane.showInputDialog("Ingresa tu Nombre.");		
 		int dummy=0;
 		while (((user==null)||(user.equals("")))&&(dummy<3)){				
 			user=JOptionPane.showInputDialog("You have to input something.");
@@ -523,15 +524,13 @@ public class Battleship extends JFrame{
 		}	
 	}
 
+	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 	//listener for New Game submenu		
-	private class GameListener implements ActionListener
-	{	
-		public void actionPerformed(ActionEvent e)
-		{	
+	private class GameListener implements ActionListener{	
+		public void actionPerformed(ActionEvent e){	
 			int q= JOptionPane.showConfirmDialog(null,"Are you sure you would l"
 			+"ike to start a new game?", "New Game?", JOptionPane.YES_NO_OPTION);
-			if (q==0)
-			{					
+			if (q==0){					
 				//resets variables
 				b.removeAll();
 				c.removeAll();
@@ -549,36 +548,29 @@ public class Battleship extends JFrame{
 				
 				gametype = e.getSource();			
 			
-				if (gametype==pvp)
-				{
-					if (!selectedValue.equals("no server"))
-					{
+				if (gametype==pvp){
+					if (!selectedValue.equals("no server")){
 						String[] possibleValues = { "Local", "Online"};
 						selectedValue = JOptionPane.showInputDialog(null, 
 						"Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null,
 						possibleValues, possibleValues[0]);
 					}
-					if (!players[you].getUser().equals("CPU1"))
-					{
-						if (players[you].getUser().equals("Stupid"))
-						{
+					if (!players[you].getUser().equals("CPU1")){
+						if (players[you].getUser().equals("Stupid")){
 							int w=JOptionPane.showConfirmDialog(null,"Would you"
 							+" like to try inputting your name again?","",
 							JOptionPane.YES_NO_OPTION);
-							if (w==JOptionPane.YES_OPTION)
-							{	
+							if (w==JOptionPane.YES_OPTION){	
 								user=JOptionPane.showInputDialog("Enter your name.");
 								int dummy=0;
-								while (((user==null)||(user.equals("")))&&(dummy<3))
-								{				
+								while (((user==null)||(user.equals("")))&&(dummy<3)){				
 									user=JOptionPane.showInputDialog("You have to input something.");
 									if ((user!=null)&&(!user.equals("")))
 										dummy=4;
 									else
 										dummy++;
 								}
-								if (dummy==3)
-								{
+								if (dummy==3){
 									JOptionPane.showMessageDialog(null,"Still a"
 									+"cting stupid.  Oh well, we'll run with it."
 									,"",JOptionPane.INFORMATION_MESSAGE);
@@ -594,8 +586,7 @@ public class Battleship extends JFrame{
 					}
 					else									
 						players[you]=new Player (user);								
-					if (selectedValue.equals("Online"))
-					{
+					if (selectedValue.equals("Online")){
 						players[enemy]=new Player ("Unknown");
 						if (!isAutoSet())
 						{
@@ -603,21 +594,18 @@ public class Battleship extends JFrame{
 							deploy.setEnabled(false);
 							d.add(inputpanel,BorderLayout.NORTH);					
 						}
-						else
-						{
+						else{
 							b.add(autoBoard(you,enemy),BorderLayout.WEST);																				
 							c.add(autoBoard(enemy,you),BorderLayout.EAST);
 							ready=1;																
 						}					
 					}
-					else
-					{
+					else{
 						//gets user to input name
 						if((players[enemy].getUser().equals("Computer"))||(players[enemy].getUser().equals("CPU2"))||(players[enemy].getUser().equals("Unknown")))
 						{							
 							user2=JOptionPane.showInputDialog("Enter your name.");					
-							while ((user2==null)||(user2.equals("")))
-							{				
+							while ((user2==null)||(user2.equals(""))){				
 								user2=JOptionPane.showInputDialog("You have to input something.");							
 							}						
 						}
@@ -632,29 +620,24 @@ public class Battleship extends JFrame{
 					}
 					//ready=1;
 				}
-				else if (gametype==pvc)//Player vs Computer
-				{						
-					if (!players[you].getUser().equals("CPU1"))
-					{
-						if (players[you].getUser().equals("Stupid"))
-						{
+				
+				else if (gametype==pvc){//Player vs Computer						
+					if (!players[you].getUser().equals("CPU1")){
+						if (players[you].getUser().equals("Stupid")){
 							int w=JOptionPane.showConfirmDialog(null,"Would you"
 							+" like to try inputting your name again?","",
 							JOptionPane.YES_NO_OPTION);
-							if (w==JOptionPane.YES_OPTION)
-							{	
+							if (w==JOptionPane.YES_OPTION){	
 								user=JOptionPane.showInputDialog("Enter your name.");
 								int dummy=0;
-								while (((user==null)||(user.equals("")))&&(dummy<3))
-								{				
+								while (((user==null)||(user.equals("")))&&(dummy<3)){				
 									user=JOptionPane.showInputDialog("You have to input something.");
 									if ((user!=null)&&(!user.equals("")))
 										dummy=4;
 									else
 										dummy++;
 								}
-								if (dummy==3)
-								{
+								if (dummy==3){
 									JOptionPane.showMessageDialog(null,"Still a"
 									+"cting stupid.  Oh well, we'll run with it."
 									,"",JOptionPane.INFORMATION_MESSAGE);
@@ -671,21 +654,20 @@ public class Battleship extends JFrame{
 					else									
 						players[you]=new Player (user);								
 					players[enemy]=new Player ("Computer");			
-					if (!isAutoSet())
-					{
+					if (!isAutoSet()){
 						b.add(setBoard(you),BorderLayout.CENTER);							
 						deploy.setEnabled(false);
 						d.add(inputpanel,BorderLayout.NORTH);					
 					}
-					else
-					{
+					else{
 						b.add(autoBoard(you,enemy),BorderLayout.WEST);																				
 						c.add(autoBoard(enemy,you),BorderLayout.EAST);
 						whoGoesFirst();	
 					}
 				}
-				else if (gametype==cvc)//Computer vs Computer
-				{										
+				
+				else if (gametype==cvc){//Computer vs Computer
+														
 					mbar.setText("Battleship Demo");					
 					mbar.setEditable(false);					
 					d.add(mbar,BorderLayout.NORTH);
