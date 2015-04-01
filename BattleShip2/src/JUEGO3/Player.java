@@ -93,14 +93,6 @@ public class Player {
 		this.boats[i]=r;		
 	}	
 	
-	/*public void setGames(Board k){
-		this.games=k;
-	}	
-	
-	public Board getGames(){
-		return this.games;
-	}*/
-	
 	public Ship getBoats(int x){
 		return this.boats[x];
 	}
@@ -182,7 +174,7 @@ public class Player {
 		Battleship.getStats().add(Battleship.getData());
 		Battleship.setData(new JLabel(Battleship.getPlayers(y).getUser(),SwingConstants.CENTER));
 		Battleship.getStats().add(Battleship.getData());
-		Battleship.setData(new JLabel("Dipsaros Recibidos"));
+		Battleship.setData(new JLabel("Golpes Recibidos"));
 		Battleship.getStats().add(Battleship.getData());
 		Battleship.setData(new JLabel(Integer.toString(Battleship.getPlayers(x).getShots()),SwingConstants.CENTER));
 		Battleship.getStats().add(Battleship.getData());
@@ -343,8 +335,7 @@ public class Player {
 			f++;
 		this.boats[f].setHitsLeft();
 		System.out.println(z+":  "+this.boats[f].getHitsLeft());
-		if (this.boats[f].getHitsLeft()==0)
-		{
+		if (this.boats[f].getHitsLeft()==0){
 			this.setShipsLeft();
 			JOptionPane.showMessageDialog(null,"Has Perdido tu "+
 			this.boats[f].getName()+"!","Barco Destruido",
@@ -694,11 +685,9 @@ public class Player {
 				}
 				else{
 					JOptionPane.showMessageDialog(null,
-					this.getUser()+" won!!!","It's A Celebration"
+					this.getUser()+" Has Ganado!!!","Felicidades"
 					+"!",JOptionPane.INFORMATION_MESSAGE);
-					if (this.getUser().equals("Stupid"))
-						JOptionPane.showMessageDialog(null,"Maybe you're no"
-						+"t that stupid after all!","",JOptionPane.INFORMATION_MESSAGE);									
+												
 				}						
 			}									
 		}						

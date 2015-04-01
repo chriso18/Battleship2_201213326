@@ -83,7 +83,6 @@ public class Menu extends JFrame  {
 				   miBatallaNaval.setVisible(true);
 				   miBatallaNaval.setLocationRelativeTo(null);
 				   miBatallaNaval.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				   
 			}
 		  }
 		}
@@ -101,11 +100,6 @@ public class Menu extends JFrame  {
 			}	
 	  }
 	
-	  
-	  
-	  
-	  
-	  
 	  
 	  
 	public static void main(String[] args) {

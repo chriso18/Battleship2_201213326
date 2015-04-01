@@ -9,35 +9,31 @@ import java.util.Vector;
 import java.net.*;
 
 public class Battleship extends JFrame{		
-	private static JButton ok = new JButton("OK"),//closes stats menu
-						   done =new JButton("Done");//closes options menu
-	private static JFrame estadisticas= new JFrame("Estadisticas"),//holds stats
-						  options=new JFrame("Options");//holds opts
-	private static JLabel data,//used for stats menu
-						  title;//used for options menu
-	private static JPanel stats=new JPanel(),//used for stats menu
-						  opts,//used for options menu
-						  inputpanel;//for manually inputting ships
-	private static Container b,c,d;//board and input panel 
+	private static JButton ok = new JButton("OK"),//cierra el menu stats
+						   done =new JButton("Done");//cierra el menu opciones
+	private static JFrame estadisticas= new JFrame("Estadisticas"),//matiene los stats
+						  opciones=new JFrame("Options");//mantiene las opciones
+	private static JLabel data,//se usa para el menu de stats
+						  title;//se usa para el menu de opciones
+	private static JPanel stats=new JPanel(),//usado para el menu de stats
+						  opts,//se usa para el menu de opciones
+						  inputpanel;//usado para ingresar los barcos de forma manual
+	private static Container b,c,d;//tablero y panel para ingresar los barcos
 	private JPanel input;//input bar	
-	private static JMenuItem m,pvp,pvc,cvc;//menu items	
-	private static String[] cletters = {" ","A","B","C","D","E","F","G","H","I","J"},
-	//array of letters used for combo boxes
-			    	 cnumbers = {" ","1","2","3","4","5","6","7","8","9","10"},
-	//array of numbers used for combo boxes
-					 ships = {"Carrier","Battleship","Submarine","Destroyer",
-					 "Patrol Boat"},//strings used for ship combo box
-					 direction = {"Horizontal","Vertical"},//directions
-					 level={"Normal", "Ridiculously Hard"}, 
-					 layout={"Manual","Automatic"},
-					 colors={"Cyan", "Green", "Yellow", "Magenta", "Pink", "Red",
-					 "White"},
-					 first={"Player 1", "Player 2", "Random"};//used for options
-	private JComboBox cbar = new JComboBox(ships),//ships
-					  cdir = new JComboBox(direction);//directions
+	private static JMenuItem m,pvp,pvc;//items del menu
+	private static String[] cletras = {" ","A","B","C","D","E","F","G","H","I","J"},//array de letras para poner en el tablero
+			    	        cnumeros = {" ","1","2","3","4","5","6","7","8","9","10"},//array de numeros para poner en el tablero
+					        barcos = {"Carrier","Battleship","Submarine","Destroyer","Patrol Boat"},//strings usado para los barcos en el combo box
+					        direccion = {"Horizontal","Vertical"},//string usado para las direcciones en el combo box
+					        level={"Normal", "Ridiculously Hard"}, 
+					        layout={"Manual","Automatic"},
+					        colores={"Cyan", "Green", "Yellow", "Red","White"},
+					        first={"Player 1", "Player 2", "Random"};//usados en las opciones
+	private JComboBox cbar = new JComboBox(barcos),//barcos
+					  cdir = new JComboBox(direccion);//direcciones
 	private static JComboBox aiLevel=new JComboBox(level),
 						     shipLayout=new JComboBox(layout),
-							 shipColor=new JComboBox(colors),
+							 shipColor=new JComboBox(colores),
 							 playsFirst=new JComboBox(first);//used
 					  			//for options menu
 	private JTextField mbar = new JTextField();//message bar	
@@ -54,11 +50,10 @@ public class Battleship extends JFrame{
 				dindex=0;//direction	
 	private static Player players[]=new Player[2];
 	private static JButton deploy=new JButton("COLOCAR");
-	private static int w=0,a=0,s=0,t=0,e=0;//counters to track the use of all ships
+	private static int w=0,a=0,s=0,t=0,e=0;//counters to track the use of all barcos
 	private static String[][] shiphit=new String[10][10];
 	private static String user,user2,user3;
-	private static Color[] color={Color.cyan,Color.green,Color.yellow,Color.magenta,
-									Color.pink,	Color.red,	Color.white};		 	
+	private static Color[] color={Color.cyan,Color.green,Color.yellow,Color.red,Color.white};		 	
 	private static Object selectedValue=" ",
 						  gametype;
 	private static BattleshipClient me;
@@ -73,19 +68,7 @@ public class Battleship extends JFrame{
 		
 		//gets user to input name
 		user=JOptionPane.showInputDialog("Ingresa tu Nombre.");		
-		int dummy=0;
-		while (((user==null)||(user.equals("")))&&(dummy<3)){				
-			user=JOptionPane.showInputDialog("You have to input something.");
-			if ((user!=null)&&(!user.equals("")))
-				dummy=4;
-			else
-				dummy++;
-		}
-		if (dummy==3){
-			JOptionPane.showMessageDialog(null,"Since you're having trouble inp"
-			+"utting your name, I'll just call you stupid.","",JOptionPane.INFORMATION_MESSAGE);
-			user="Stupid";
-		}
+		
 		players[you]=new Player (user);
 		players[enemy]=new Player ("Computer");						
 		b=getContentPane();		
@@ -131,11 +114,13 @@ public class Battleship extends JFrame{
 	}
 	
 	//returns ship color, as selected by the user
+	//regresa el color del barco elegido por el usuario
 	public static Color getColor(){			
 		return (color[shipColor.getSelectedIndex()]);	
 	}
 	
 	//asks if two players are playing on the same computer or over the web
+	//pregunta si se unira otro jugador al juego
 	public static boolean isLocal(){
 		if ((gametype==pvp)&&(selectedValue.equals("Local")))
 				return true;
@@ -156,6 +141,7 @@ public class Battleship extends JFrame{
 	}
 	
 	//determines whether or not is shipLayout is set to automatic
+	//determina si los barcos se ponen automaticamente o no
 	public static boolean isAutoSet(){
 		if (shipLayout.getSelectedIndex()==0)
 			return false;
@@ -165,26 +151,31 @@ public class Battleship extends JFrame{
 	
 	
 	//variable that determines whether or not a carrier has been placed
+	//variable que determina si el carrier(cargador) se coloco
 	public static int getW(){
 		return w;	
 	}
 	
 	//variable that determines whether or not a battleship has been placed
+	//variable que determina si el Battleship(barco de batalla) se coloco
 	public static int getA(){
 		return a;	
 	}
 	
 	//variable that determines whether or not a submarine has been placed
+	//variable que determina si el submarine(submarino) se coloco
 	public static int getS(){
 		return s;	
 	}
 	
 	//variable that determines whether or not a destroyer has been placed
+	//variable que determina si el destroyer(destructor) se coloco
 	public static int getT(){
 		return t;	
 	}
 	
 	//variable that determines whether or not a patrol boat has been placed
+	//variable que determina si la patrulla se coloco
 	public static int getE(){
 		return e;	
 	}		
@@ -218,19 +209,19 @@ public class Battleship extends JFrame{
 	}
 	
 	public static String getDirection(int i){
-		return direction[i];	
+		return direccion[i];	
 	}
 	
 	public static String getCletters(int i){
-		return cletters[i];	
+		return cletras[i];	
 	}	
 	
 	public static String getShips(int i){
-		return ships[i];	
+		return barcos[i];	
 	}
 	
 	public static String getCnumbers(int i){
-		return cnumbers[i];	
+		return cnumeros[i];	
 	}	
 	
 	public static int getSIndex(){
@@ -257,11 +248,12 @@ public class Battleship extends JFrame{
 		enemy=x;	
 	}
 	
-	//creates Game menu and submenus
+	
+	//crea el menu del juego y submenus
 	public JMenuBar createMenuBar(){
 		JMenu menu;//menu
       
-		// crea tla barra del menu
+		// crea la barra del menu
 		JMenuBar menuBar = new JMenuBar();
 
 		// construye el menu del juego
@@ -279,9 +271,6 @@ public class Battleship extends JFrame{
 		pvc = new JMenuItem("Player vs. Computer");
 		pvc.addActionListener(stuff);
 		m.add(pvc);
-		cvc = new JMenuItem("Computer vs. Computer");
-		cvc.addActionListener(stuff);
-		m.add(cvc);
 		
 		m = new JMenuItem("Estadisticas");
 		m.addActionListener(new StatsListener());		
@@ -295,13 +284,14 @@ public class Battleship extends JFrame{
 		return menuBar;
 	}
 	
-	//creates panels that used to place ships
+	
+	//crea los paneles que se usaran para colocar los barcos
 	public JPanel shipinput()
 	{
 		input= new JPanel();
 		cbar.setSelectedIndex(0);	
 		cbar.addActionListener(new ShipsListener());
-		TitledBorder title;//used for titles around combo boxes
+		TitledBorder title;//se usa para los titulos de los combo box
 		title = BorderFactory.createTitledBorder("Barcos");
 		cbar.setBorder(title);	
 		input.add(cbar);		
@@ -316,7 +306,8 @@ public class Battleship extends JFrame{
 		return input;
 	}	
 	
-	//creates board for manual ship placement
+	
+	//crea el tablero para coloar los barcos
 	public JPanel setBoard(int n){
 		players[n].setMyBoard(new JPanel(new GridLayout(11,11)));//panel to store board		
 		JTextField k;		
@@ -328,13 +319,13 @@ public class Battleship extends JFrame{
 				}				
 				if (i==0){				
 					if (j!=0){	
-						//used to display row of numbers
+						//se usa para mostrar las filas de numeros
 						k= new JTextField(Battleship.getCnumbers(j));
 						k.setEditable(false);
 						k.setHorizontalAlignment((int)JFrame.CENTER_ALIGNMENT); 
 					}									
 					else {	
-						//used to display column of numbers
+						//se usa para mostrar las columnas de numeros
 						k= new JTextField();
 						k.setEditable(false);						
 					}
@@ -351,7 +342,7 @@ public class Battleship extends JFrame{
 		return players[n].getMyBoard();		
 	}
 	
-	//creates board and automatically places ship
+	//crea el tablero y automaticamente coloca los barcos.
 	public JPanel autoBoard(int u,int t) {
 		players[u].setGBoard(new JPanel(new GridLayout(11,11)));//panel to store board		
 		JTextField k;	
@@ -377,13 +368,13 @@ public class Battleship extends JFrame{
 				}				
 				if (i==0){				
 					if (j!=0){	
-						//used to display row of numbers
+						//se usa para mostrar las filas de numeros
 						k= new JTextField(Battleship.getCnumbers(j));
 						k.setEditable(false);
 						k.setHorizontalAlignment((int)JFrame.CENTER_ALIGNMENT); 
 					}									
 					else {	
-						//used to display column of numbers
+						//se usa para mostrar las columnas de numeros
 						k= new JTextField();
 						k.setEditable(false);						
 					}
@@ -402,7 +393,7 @@ public class Battleship extends JFrame{
 	
 	
 	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-	//Listener for combo boxes used to layout ships 
+	//listener para escoger los barcos dentro del combo box
 	private class ShipsListener implements ActionListener{	
 		public void actionPerformed(ActionEvent v){				
 			sindex=cbar.getSelectedIndex();
@@ -422,7 +413,7 @@ public class Battleship extends JFrame{
 			}
 			if (players[you].getBoats(sindex) != null)
 			{
-				Ship boat=new Ship(ships[sindex],players[you].getBoats(sindex).getDirect()
+				Ship boat=new Ship(barcos[sindex],players[you].getBoats(sindex).getDirect()
 				,length,players[you].getBoats(sindex).getX(),players[you].getBoats(sindex).getY());		
 				players[you].getBoats(sindex).clearship();
 				players[you].setBoats(sindex,boat);
@@ -431,7 +422,7 @@ public class Battleship extends JFrame{
 		}
 	}			
 			
-	//Listener for the Direction combo box		
+	//listener para elegir la direccion del barco dentro del combo box
 	private class DirectListener implements ActionListener
 	{	
 		public void actionPerformed(ActionEvent v)
@@ -439,7 +430,7 @@ public class Battleship extends JFrame{
 			dindex = cdir.getSelectedIndex();					
 			if (players[you].getBoats(sindex) != null)
 			{
-				Ship boat=new Ship(ships[sindex],dindex,players[you].getBoats(sindex).getLength(),
+				Ship boat=new Ship(barcos[sindex],dindex,players[you].getBoats(sindex).getLength(),
 			   	players[you].getBoats(sindex).getX(),players[you].getBoats(sindex).getY());		   
 				players[you].getBoats(sindex).clearship();
 				players[you].setBoats(sindex,boat);
@@ -448,7 +439,7 @@ public class Battleship extends JFrame{
 		}
 	}				
 	
-	//Listener for the buttons on the board		
+	//listener para los botones en el tablero
 	private class BoardListener implements ActionListener
 	{	
 		public void actionPerformed(ActionEvent v)
@@ -493,7 +484,7 @@ public class Battleship extends JFrame{
 									}
 							break;							
 						}	
-						players[you].setBoats(sindex,new Ship(ships[sindex],dindex,length,i,j));																									
+						players[you].setBoats(sindex,new Ship(barcos[sindex],dindex,length,i,j));																									
 						break outer;						
 					}					
 				}
@@ -503,7 +494,7 @@ public class Battleship extends JFrame{
 		}
     }
 	
-	//creates a panel that tells whose board is which
+	//crea el panel que indica a quien pertenece cada tablero
 	private JPanel whoseBoard()
 	{
 		JPanel panel=new JPanel(new BorderLayout());
@@ -511,27 +502,27 @@ public class Battleship extends JFrame{
 		panel.add(new JLabel(players[enemy].getUser()+"'s Board",SwingConstants.RIGHT),BorderLayout.EAST);
 		return panel;
 	}
-	
-	//Listener for exit choice on Game menu	
+
+	//listener para la opcion de salida en el menu del juego
 	private class ExitListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			int r= JOptionPane.showConfirmDialog(null,"Are you sure you would l"
-			+"ike to exit Battleship?", "Exit?", JOptionPane.YES_NO_OPTION);
+			int r= JOptionPane.showConfirmDialog(null,"Esta de Seguro de"
+			+" Querer Salir de Battleship?", "SALIR?", JOptionPane.YES_NO_OPTION);
 			if (r==0)
 				System.exit(0);	
 		}	
 	}
 
 	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-	//listener for New Game submenu		
+	//listener para nuevo juego en el submenu
 	private class GameListener implements ActionListener{	
 		public void actionPerformed(ActionEvent e){	
-			int q= JOptionPane.showConfirmDialog(null,"Are you sure you would l"
-			+"ike to start a new game?", "New Game?", JOptionPane.YES_NO_OPTION);
+			int q= JOptionPane.showConfirmDialog(null,"Esta seguro de querer"
+			+" Empezar un Nuevo Juego?", "Nuevo Juego?", JOptionPane.YES_NO_OPTION);
 			if (q==0){					
-				//resets variables
+				//resetea las variables
 				b.removeAll();
 				c.removeAll();
 				d.removeAll();				
@@ -548,7 +539,7 @@ public class Battleship extends JFrame{
 				
 				gametype = e.getSource();			
 			
-				if (gametype==pvp){
+				if (gametype==pvp){//Jugador vs Jugador
 					if (!selectedValue.equals("no server")){
 						String[] possibleValues = { "Local", "Online"};
 						selectedValue = JOptionPane.showInputDialog(null, 
@@ -601,7 +592,7 @@ public class Battleship extends JFrame{
 						}					
 					}
 					else{
-						//gets user to input name
+						//le dice al usuario que ingrese su nombre
 						if((players[enemy].getUser().equals("Computer"))||(players[enemy].getUser().equals("CPU2"))||(players[enemy].getUser().equals("Unknown")))
 						{							
 							user2=JOptionPane.showInputDialog("Enter your name.");					
@@ -621,7 +612,7 @@ public class Battleship extends JFrame{
 					//ready=1;
 				}
 				
-				else if (gametype==pvc){//Player vs Computer						
+				else if (gametype==pvc){//Jugador vs computadora						
 					if (!players[you].getUser().equals("CPU1")){
 						if (players[you].getUser().equals("Stupid")){
 							int w=JOptionPane.showConfirmDialog(null,"Would you"
@@ -666,17 +657,6 @@ public class Battleship extends JFrame{
 					}
 				}
 				
-				else if (gametype==cvc){//Computer vs Computer
-														
-					mbar.setText("Battleship Demo");					
-					mbar.setEditable(false);					
-					d.add(mbar,BorderLayout.NORTH);
-					players[you]=new Player ("CPU1");
-					players[enemy]=new Player ("CPU2");					
-					b.add(autoBoard(you,enemy),BorderLayout.WEST);																				
-					c.add(autoBoard(enemy,you),BorderLayout.EAST);					
-					whoGoesFirst();		
-				}				
 				pack();		
 				repaint();
 			}									
@@ -684,31 +664,25 @@ public class Battleship extends JFrame{
 	}	
 	
 	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-	//Listener for Rules menu
-	private class RulesListener implements ActionListener{	
-		public void actionPerformed(ActionEvent e){	
-			
-		}	
-	}
 	
-	
-	//Listener for ok button in estadisticas menu
+	//listener para el boton ok en el menu de estadisticas
 	private class OkListener implements ActionListener{	
 		public void actionPerformed(ActionEvent e){	
 			estadisticas.dispose();
 		}	
 	}
 	
-	//Listener for Stats menu
+	//listener para el menu stats
 	private class StatsListener implements ActionListener{	
 		
 		public void setup(){			
 			stats=new JPanel();
 			ok.addActionListener(new OkListener());		
-			estadisticas.setSize(300,300);
+			estadisticas.setSize(450,450);
 			estadisticas.setResizable(false);		
 			estadisticas.getContentPane().add(ok,BorderLayout.SOUTH);
-			//estadisticas.setLocation(700,200);				
+			estadisticas.setLocationRelativeTo(null);
+			
 		}	
 		
 		//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -720,36 +694,36 @@ public class Battleship extends JFrame{
 			stats.setLayout(new GridLayout(6,3));					
 			data=new JLabel("");
 			stats.add(data);
-			data=new JLabel("Player 1",SwingConstants.CENTER);
+			data=new JLabel("Jugador 1",SwingConstants.CENTER);
 			stats.add(data);
-			data=new JLabel("Player 2",SwingConstants.CENTER);
+			data=new JLabel("Jugador 2",SwingConstants.CENTER);
 			stats.add(data);				
-			data=new JLabel("Names");
+			data=new JLabel("Nombres");
 			stats.add(data);
 			if (you == 0){								
 				data=new JLabel(players[you].getUser(),SwingConstants.CENTER);
 				stats.add(data);
 				data=new JLabel(players[enemy].getUser(),SwingConstants.CENTER);
 				stats.add(data);
-				data=new JLabel("Shots Taken");
+				data=new JLabel("Disparos Recibidos");
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[you].getShots()),SwingConstants.CENTER);
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[enemy].getShots()),SwingConstants.CENTER);
 				stats.add(data);
-				data=new JLabel("Hits");
+				data=new JLabel("Golpes");
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[you].getHits()),SwingConstants.CENTER);
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[enemy].getHits()),SwingConstants.CENTER);
 				stats.add(data);
-				data=new JLabel("Shot Accuracy");
+				data=new JLabel("Precision");
 				stats.add(data);
 				data=new JLabel(players[you].getAcc(),SwingConstants.CENTER);
 				stats.add(data);
 				data=new JLabel(players[enemy].getAcc(),SwingConstants.CENTER);
 				stats.add(data);
-				data=new JLabel("Ships Left");
+				data=new JLabel("Barcos Restantes");
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[you].getShipsLeft()),SwingConstants.CENTER);
 				stats.add(data);
@@ -761,25 +735,25 @@ public class Battleship extends JFrame{
 				stats.add(data);
 				data=new JLabel(players[you].getUser(),SwingConstants.CENTER);
 				stats.add(data);
-				data=new JLabel("Shots Taken");
+				data=new JLabel("Disparos Recibidos");
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[enemy].getShots()),SwingConstants.CENTER);
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[you].getShots()),SwingConstants.CENTER);
 				stats.add(data);
-				data=new JLabel("Hits");
+				data=new JLabel("Golpes");
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[enemy].getHits()),SwingConstants.CENTER);
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[you].getHits()),SwingConstants.CENTER);
 				stats.add(data);
-				data=new JLabel("Shot Accuracy");
+				data=new JLabel("Precision");
 				stats.add(data);
 				data=new JLabel(players[enemy].getAcc(),SwingConstants.CENTER);
 				stats.add(data);
 				data=new JLabel(players[you].getAcc(),SwingConstants.CENTER);
 				stats.add(data);
-				data=new JLabel("Ships Left");
+				data=new JLabel("Barcos Restantes");
 				stats.add(data);
 				data=new JLabel(Integer.toString(players[enemy].getShipsLeft()),SwingConstants.CENTER);
 				stats.add(data);
@@ -794,11 +768,11 @@ public class Battleship extends JFrame{
 	
 	
 	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-	//Listener for Deploy Button 
+	//listener para el boton de colocar los barcos
 	private class DeployListener implements ActionListener{	
 		public void actionPerformed(ActionEvent v){	
-			int r= JOptionPane.showConfirmDialog(null,"Are you sure you would l"
-			+"ike to deploy your ships?", "Deploy Ships?", 
+			int r= JOptionPane.showConfirmDialog(null,"Esta seguro de "
+			+" Querer colocar sus Barcos?", "COLOCAR BARCOS?", 
 			JOptionPane.YES_NO_OPTION);
 			if (r==0){	
 				w=0;
@@ -820,13 +794,13 @@ public class Battleship extends JFrame{
 	}
 
 	//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-	//Listener for Options menu
+	//listener para el menu de opciones 
 	public class OptionsListener implements ActionListener{	
 		public void actionPerformed(ActionEvent e){		
 			if (opts==null)
 				setup();
 			else
-				options.setVisible(true);					
+				opciones.setVisible(true);					
 		}		
 
 		//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -849,17 +823,18 @@ public class Battleship extends JFrame{
 			opts.add(title);			
 			playsFirst.setSelectedIndex(0);			
 			opts.add(playsFirst);		
-			options.getContentPane().add(opts,BorderLayout.CENTER);
-			//options.setSize(600,800);
-			options.setResizable(false);
+			opciones.getContentPane().add(opts,BorderLayout.CENTER);
+			//opciones.setSize(600,800);
+			opciones.setResizable(false);
 			done.addActionListener(new DoneListener());		
-			options.getContentPane().add(done,BorderLayout.SOUTH);
-			options.setLocation(200,200);
-			options.pack();
-			options.setVisible(true);		
+			opciones.getContentPane().add(done,BorderLayout.SOUTH);
+			opciones.setLocation(200,200);
+			opciones.pack();
+			opciones.setVisible(true);		
 		}
 		
-		//Listener for the Colors combo box		
+		//Listener for the Colors combo box	
+		//listener para el combo box de colores
 		private class SColorListener implements ActionListener{	
 			public void actionPerformed(ActionEvent v){	
 				for (i=0;i<10;i++)
@@ -875,15 +850,15 @@ public class Battleship extends JFrame{
 		}	
 		
 		//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-		//Listener for ok button in estadisticas menu
+		//listener para el boton ok en el menu de estadisticas
 		private class DoneListener implements ActionListener{	
 			public void actionPerformed(ActionEvent e){	
 				if ((shipLayout.getSelectedIndex()!=prevLayout)||
 					(aiLevel.getSelectedIndex()!=prevLevel)||
 					(playsFirst.getSelectedIndex()!=prevFirst))
 				{
-					JOptionPane.showMessageDialog(null,"Changes will take"+
-					" place at the start of a new game.",""
+					JOptionPane.showMessageDialog(null,"Los Cambios se Realizaran"+
+					" al Comenzar un Nuevo Juego.",""
 					,JOptionPane.PLAIN_MESSAGE);
 					if (shipLayout.getSelectedIndex()!=prevLayout)
 						prevLayout=shipLayout.getSelectedIndex();
@@ -892,7 +867,7 @@ public class Battleship extends JFrame{
 					if (aiLevel.getSelectedIndex()!=prevLevel)
 						prevLevel=aiLevel.getSelectedIndex();
 				}
-				options.dispose();
+				opciones.dispose();
 			}	
 		}	
 	}	
@@ -908,7 +883,6 @@ public class Battleship extends JFrame{
 		while (gui.isActive()){
 			while (selectedValue.equals(" "))
 				{	}
-			System.out.println("xenophobia");
 			System.out.println("Object = "+selectedValue);
 			if (selectedValue.equals("Online")){	
 				selectedValue=" ";
